@@ -1,1 +1,533 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b0d12">
+    <title>SKINVERSE — CS2 Skin Marketplace</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #0b0d12;
+            color: #f2f3f5;
+            font-family: Arial, sans-serif;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        header {
+            height: 76px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 7%;
+            background: #10131b;
+            border-bottom: 1px solid #222631;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+
+        .logo span {
+            color: #ff8c32;
+        }
+
+        nav {
+            display: flex;
+            gap: 30px;
+        }
+
+        nav a {
+            color: #9298a5;
+            font-size: 14px;
+            transition: 0.2s;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: #ff963f;
+        }
+
+        .header-button {
+            background: #ff8c32;
+            color: #111;
+            padding: 11px 19px;
+            border-radius: 7px;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        .hero {
+            padding: 90px 7% 65px;
+            background:
+                radial-gradient(ellipse at 75% 30%, #362116 0%, transparent 45%),
+                #0b0d12;
+        }
+
+        .tag {
+            display: inline-block;
+            color: #ff963f;
+            background: #291d16;
+            border: 1px solid #59351e;
+            padding: 8px 13px;
+            border-radius: 20px;
+            font-size: 11px;
+            letter-spacing: 1px;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 {
+            font-size: clamp(42px, 7vw, 78px);
+            line-height: 1.05;
+            max-width: 750px;
+            font-weight: 900;
+        }
+
+        .hero h1 span {
+            color: #ff963f;
+        }
+
+        .hero p {
+            color: #9298a5;
+            max-width: 520px;
+            line-height: 1.7;
+            margin-top: 22px;
+            font-size: 16px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 13px;
+            margin-top: 32px;
+        }
+
+        .primary-button,
+        .secondary-button {
+            padding: 15px 24px;
+            border-radius: 7px;
+            font-weight: bold;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .primary-button {
+            background: #ff8c32;
+            color: #111;
+            border: none;
+        }
+
+        .secondary-button {
+            background: #171b25;
+            color: white;
+            border: 1px solid #303644;
+        }
+
+        .section {
+            padding: 45px 7%;
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+
+        .section-heading h2 {
+            font-size: 24px;
+        }
+
+        .section-heading span {
+            color: #ff963f;
+            font-size: 13px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-top: 55px;
+        }
+
+        .stat {
+            background: #11151e;
+            border: 1px solid #252b38;
+            padding: 22px;
+            border-radius: 10px;
+        }
+
+        .stat strong {
+            display: block;
+            font-size: 25px;
+            margin-bottom: 8px;
+        }
+
+        .stat small {
+            color: #858c9b;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .search-bar input {
+            flex: 1;
+            background: #141923;
+            border: 1px solid #303644;
+            border-radius: 7px;
+            padding: 15px;
+            color: white;
+            outline: none;
+            font-size: 14px;
+        }
+
+        .search-bar input:focus {
+            border-color: #ff8c32;
+        }
+
+        .search-bar button {
+            background: #ff8c32;
+            color: #111;
+            border: none;
+            border-radius: 7px;
+            padding: 0 22px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 25px;
+        }
+
+        .filter {
+            background: #151a24;
+            border: 1px solid #303644;
+            color: #aeb4c0;
+            padding: 9px 15px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .filter.active {
+            background: #392519;
+            border-color: #ff8c32;
+            color: #ffad70;
+        }
+
+        .skin-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 17px;
+        }
+
+        .skin-card {
+            background: #121722;
+            border: 1px solid #252c39;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: 0.2s;
+        }
+
+        .skin-card:hover {
+            transform: translateY(-5px);
+            border-color: #ff8c32;
+        }
+
+        .skin-image {
+            height: 165px;
+            background: radial-gradient(ellipse, #292d38, #171b25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 54px;
+        }
+
+        .skin-info {
+            padding: 16px;
+        }
+
+        .skin-info h3 {
+            font-size: 14px;
+            margin-bottom: 7px;
+        }
+
+        .skin-info p {
+            color: #858c9b;
+            font-size: 12px;
+        }
+
+        .skin-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 17px;
+        }
+
+        .price {
+            color: #ff963f;
+            font-weight: bold;
+            font-size: 17px;
+        }
+
+        .condition {
+            color: #7d8798;
+            font-size: 11px;
+        }
+
+        .empty-message {
+            color: #858c9b;
+            grid-column: 1 / -1;
+            padding: 35px;
+            text-align: center;
+        }
+
+        footer {
+            border-top: 1px solid #252b38;
+            padding: 30px 7%;
+            color: #737b8b;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        @media (max-width: 900px) {
+            .skin-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            header {
+                padding: 0 5%;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .hero, .section {
+                padding-left: 5%;
+                padding-right: 5%;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .skin-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-bar {
+                flex-direction: column;
+            }
+
+            .search-bar button {
+                padding: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <a href="#" class="logo">SKIN<span>VERSE</span></a>
+
+    <nav>
+        <a href="#" class="active">Market</a>
+        <a href="#cases">Cases</a>
+        <a href="#inventory">Inventory</a>
+        <a href="#favorites">Favorites</a>
+    </nav>
+
+    <a href="#market" class="header-button">EXPLORE MARKET</a>
+</header>
+
+<section class="hero">
+    <div class="tag">CS2 SKIN MARKETPLACE</div>
+
+    <h1>
+        ENTER THE<br>
+        <span>SKINVERSE.</span>
+    </h1>
+
+    <p>
+        Discover your next favorite skin.
+        Explore the world of Counter-Strike 2 skins
+        in one place.
+    </p>
+
+    <div class="hero-buttons">
+        <a href="#market" class="primary-button">Explore Market →</a>
+        <a href="#cases" class="secondary-button">Discover Cases</a>
+    </div>
+
+    <div class="stats">
+        <div class="stat">
+            <strong>CS2</strong>
+            <small>Built for Counter-Strike 2</small>
+        </div>
+
+        <div class="stat">
+            <strong>MARKET</strong>
+            <small>Explore available skins</small>
+        </div>
+
+        <div class="stat">
+            <strong>∞</strong>
+            <small>Possibilities await</small>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="market">
+    <div class="section-heading">
+        <h2>Explore Market</h2>
+        <span>SKINVERSE MARKET</span>
+    </div>
+
+    <div class="search-bar">
+        <input
+            type="text"
+            id="search"
+            placeholder="Search skins, weapons..."
+        >
+        <button onclick="filterSkins()">SEARCH</button>
+    </div>
+
+    <div class="filters">
+        <button class="filter active" onclick="setFilter('All', this)">All</button>
+        <button class="filter" onclick="setFilter('Rifle', this)">Rifles</button>
+        <button class="filter" onclick="setFilter('Pistol', this)">Pistols</button>
+        <button class="filter" onclick="setFilter('Knife', this)">Knives</button>
+        <button class="filter" onclick="setFilter('Sniper', this)">Snipers</button>
+    </div>
+
+    <div class="skin-grid" id="skinGrid"></div>
+</section>
+
+<section class="section" id="cases">
+    <div class="section-heading">
+        <h2>Case Simulator</h2>
+        <span>COMING SOON</span>
+    </div>
+    <p style="color:#858c9b;">
+        Your next big drop could be waiting. Case Simulator is coming to Skinverse.
+    </p>
+</section>
+
+<section class="section" id="inventory">
+    <div class="section-heading">
+        <h2>Your Inventory</h2>
+        <span>COMING SOON</span>
+    </div>
+    <p style="color:#858c9b;">
+        Your personal skin collection will live here.
+    </p>
+</section>
+
+<section class="section" id="favorites">
+    <div class="section-heading">
+        <h2>Favorites</h2>
+        <span>COMING SOON</span>
+    </div>
+    <p style="color:#858c9b;">
+        Keep track of the skins you love.
+    </p>
+</section>
+
+<footer>
+    <div>© 2026 SKINVERSE</div>
+    <div>Independent fan project. Not affiliated with Valve.</div>
+</footer>
+
+<script>
+    const skins = [
+        { name: "AK-47 | Redline", weapon: "Rifle", condition: "Field-Tested", price: 18.50, icon: "🔫" },
+        { name: "AWP | Asiimov", weapon: "Sniper", condition: "Field-Tested", price: 92.40, icon: "🎯" },
+        { name: "M4A4 | Neo-Noir", weapon: "Rifle", condition: "Minimal Wear", price: 34.20, icon: "🔫" },
+        { name: "Glock-18 | Water Elemental", weapon: "Pistol", condition: "Factory New", price: 12.80, icon: "🔫" },
+        { name: "Karambit | Doppler", weapon: "Knife", condition: "Factory New", price: 850.00, icon: "🔪" },
+        { name: "USP-S | Kill Confirmed", weapon: "Pistol", condition: "Field-Tested", price: 48.60, icon: "🔫" },
+        { name: "AWP | Dragon Lore", weapon: "Sniper", condition: "Field-Tested", price: 5200.00, icon: "🐉" },
+        { name: "M4A1-S | Printstream", weapon: "Rifle", condition: "Minimal Wear", price: 105.00, icon: "🔫" }
+    ];
+
+    let activeFilter = "All";
+
+    function renderSkins() {
+        const search = document.getElementById("search").value.toLowerCase();
+        const grid = document.getElementById("skinGrid");
+
+        const filtered = skins.filter(skin => {
+            const matchesSearch = skin.name.toLowerCase().includes(search);
+            const matchesFilter = activeFilter === "All" || skin.weapon === activeFilter;
+
+            return matchesSearch && matchesFilter;
+        });
+
+        if (filtered.length === 0) {
+            grid.innerHTML = '<div class="empty-message">No skins found.</div>';
+            return;
+        }
+
+        grid.innerHTML = filtered.map(skin => `
+            <div class="skin-card">
+                <div class="skin-image">${skin.icon}</div>
+                <div class="skin-info">
+                    <h3>${skin.name}</h3>
+                    <p>${skin.weapon}</p>
+                    <div class="skin-bottom">
+                        <span class="price">€${skin.price.toFixed(2)}</span>
+                        <span class="condition">${skin.condition}</span>
+                    </div>
+                </div>
+            </div>
+        `).join("");
+    }
+
+    function setFilter(filter, button) {
+        activeFilter = filter;
+
+        document.querySelectorAll(".filter").forEach(btn => {
+            btn.classList.remove("active");
+        });
+
+        button.classList.add("active");
+        renderSkins();
+    }
+
+    function filterSkins() {
+        renderSkins();
+    }
+
+    document.getElementById("search").addEventListener("input", renderSkins);
+
+    renderSkins();
+</script>
+
+</body>
+</html>
+
