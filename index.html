@@ -4,932 +4,1507 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SKINVERSE — CS2 Skin Market</title>
+<meta name="theme-color" content="#090d16">
+<meta name="description" content="SKINVERSE — CS2 skin catalog, collection and case simulator.">
+<title>SKINVERSE — CS2 Skin Marketplace</title>
+
 <style>
-:root {
-  --bg:#090b10;
-  --panel:#11151e;
-  --panel2:#171d29;
-  --border:#252d3b;
-  --text:#edf1f7;
-  --muted:#8994a6;
-  --accent:#64a8ff;
-  --accent2:#3478d4;
-  --green:#55d69e;
-  --red:#ff647c;
-  --gold:#e9bd60;
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root{
+ --bg:#090d16;--panel:#111827;--panel2:#172235;--line:#263449;
+ --text:#f3f6fc;--muted:#8c9bb1;--orange:#ff8a32;--orange2:#ffb15c;
+ --green:#42d392;--blue:#55aaff;--purple:#b18aff;--red:#ff647c;
+ --shadow:0 15px 45px #0005;
 }
 *{box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{
-  margin:0;background:var(--bg);color:var(--text);
-  font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;
+ margin:0;background:radial-gradient(ellipse at 50% -20%,#1b2c48 0%,transparent 55%),var(--bg);
+ color:var(--text);font-family:Inter,sans-serif;min-height:100vh
 }
 button,input,select{font:inherit}
 button{cursor:pointer}
-.topbar{
-  position:sticky;top:0;z-index:20;
-  background:rgba(9,11,16,.94);
-  backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--border);
+button:disabled{opacity:.45;cursor:not-allowed}
+header{
+ height:76px;display:flex;align-items:center;justify-content:space-between;
+ padding:0 6%;border-bottom:1px solid #ffffff12;background:#090d16ef;
+ position:sticky;top:0;z-index:20;backdrop-filter:blur(18px);gap:20px
 }
-.top-inner{
-  max-width:1500px;margin:auto;padding:17px 28px;
-  display:flex;align-items:center;justify-content:space-between;
-  gap:20px;flex-wrap:wrap;
+.logo{
+ font-family:"Barlow Condensed",sans-serif;font-size:32px;font-weight:900;
+ letter-spacing:1px;color:white;cursor:pointer;white-space:nowrap
 }
-.logo{font-size:24px;font-weight:900;letter-spacing:3px}
-.logo span{color:var(--accent)}
-.nav{display:flex;gap:7px;flex-wrap:wrap}
-.nav button{
-  background:transparent;border:1px solid transparent;
-  color:var(--muted);padding:10px 15px;border-radius:9px;
-  font-weight:700;transition:.2s;
+.logo span{color:var(--orange)}
+nav{display:flex;align-items:center;gap:8px}
+.nav-btn{
+ color:var(--muted);background:transparent;border:0;padding:11px 15px;
+ border-radius:9px;font-size:13px;font-weight:700;transition:.2s
 }
-.nav button:hover,.nav button.active{
-  color:white;background:var(--panel2);border-color:var(--border);
+.nav-btn:hover,.nav-btn.active{color:white;background:#ffffff0d}
+.nav-btn.active{box-shadow:inset 0 -2px var(--orange)}
+.header-right{display:flex;align-items:center;gap:12px}
+.inventory-pill{
+ background:#172235;border:1px solid var(--line);padding:9px 13px;
+ border-radius:10px;color:white;font-size:12px;font-weight:700;white-space:nowrap
 }
-.status{font-size:12px;color:var(--muted)}
-.status strong{color:var(--green)}
-main{max-width:1500px;margin:auto;padding:30px 28px 70px}
+.inventory-pill span{color:var(--orange)}
+.mobile-menu{display:none}
+main{width:min(1320px,90%);margin:auto}
+.page{display:none;padding:36px 0 80px}
+.page.active{display:block}
 .hero{
-  padding:30px 0 25px;display:flex;justify-content:space-between;
-  align-items:end;gap:20px;flex-wrap:wrap;
+ min-height:350px;display:flex;align-items:center;justify-content:space-between;
+ gap:30px;padding:55px 6%;margin:28px 0 42px;border:1px solid #34425a;
+ border-radius:22px;overflow:hidden;position:relative;
+ background:radial-gradient(circle at 80% 50%,#ff8a3230,transparent 30%),
+ linear-gradient(120deg,#172235,#101827 65%,#251b1a)
 }
-.eyebrow{
-  color:var(--accent);font-size:11px;font-weight:900;
-  letter-spacing:2px;text-transform:uppercase;
+.hero::after{
+ content:"CS2";position:absolute;right:5%;top:50%;
+ transform:translateY(-50%) rotate(-8deg);
+ font-family:"Barlow Condensed",sans-serif;font-size:clamp(100px,20vw,240px);
+ font-weight:900;color:#ffffff08;pointer-events:none
 }
-h1{font-size:clamp(30px,5vw,48px);margin:8px 0;font-weight:900}
-.subtitle{color:var(--muted);max-width:650px;line-height:1.6}
-.stats{display:flex;gap:10px;flex-wrap:wrap}
-.stat{
-  background:var(--panel);border:1px solid var(--border);
-  padding:13px 17px;border-radius:12px;min-width:115px;
+.hero-content{position:relative;z-index:1;max-width:620px}
+.eyebrow{color:var(--orange);font-size:11px;font-weight:800;letter-spacing:3px;text-transform:uppercase}
+.hero h1{
+ font-family:"Barlow Condensed",sans-serif;font-size:clamp(52px,8vw,88px);
+ line-height:.92;margin:16px 0;text-transform:uppercase;letter-spacing:-1px
 }
-.stat small{display:block;color:var(--muted);font-size:11px}
-.stat strong{font-size:20px}
-.toolbar{
-  display:flex;gap:10px;flex-wrap:wrap;margin:15px 0 18px;
+.hero h1 span{color:var(--orange)}
+.hero p{color:#a9b7ca;line-height:1.7;font-size:14px;max-width:480px}
+.primary-btn{
+ background:linear-gradient(135deg,var(--orange),#ff6b2c);color:#17100b;
+ border:0;border-radius:9px;padding:13px 20px;font-weight:800;font-size:13px;
+ box-shadow:0 7px 25px #ff79252c;transition:.2s
 }
-input,select{
-  background:var(--panel);color:var(--text);
-  border:1px solid var(--border);border-radius:9px;
-  padding:12px 14px;outline:none;
+.primary-btn:hover{transform:translateY(-2px);filter:brightness(1.1)}
+.secondary-btn{
+ background:#ffffff0b;color:white;border:1px solid var(--line);
+ border-radius:9px;padding:12px 17px;font-weight:700;font-size:13px
 }
-input:focus,select:focus{border-color:var(--accent)}
-.search{flex:1;min-width:210px}
-select{min-width:145px}
-.filters{display:flex;gap:7px;flex-wrap:wrap;margin:15px 0 22px}
-.filter{
-  border:1px solid var(--border);background:var(--panel);
-  color:var(--muted);padding:8px 13px;border-radius:8px;
-  font-size:13px;font-weight:700;
+.secondary-btn:hover{border-color:var(--orange);color:var(--orange)}
+.hero-actions{display:flex;gap:10px;margin-top:24px;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:42px}
+.stat{background:#111827;border:1px solid var(--line);padding:18px 20px;border-radius:13px}
+.stat strong{
+ display:block;font-family:"Barlow Condensed",sans-serif;font-size:30px;color:white
 }
-.filter.active,.filter:hover{
-  color:white;background:#1c2b41;border-color:var(--accent);
-}
+.stat small{color:var(--muted);font-size:11px}
 .section-heading{
-  display:flex;justify-content:space-between;align-items:center;
-  gap:12px;margin:24px 0 14px;
+ display:flex;justify-content:space-between;align-items:end;gap:20px;
+ margin:34px 0 20px
 }
-.section-heading h2{font-size:19px;margin:0}
-.muted{color:var(--muted)}
-.skin-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-  gap:14px;
+.section-heading h2{
+ font-family:"Barlow Condensed",sans-serif;font-size:34px;margin:0;text-transform:uppercase
 }
+.section-heading p{color:var(--muted);font-size:12px;margin:5px 0 0}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 16px}
+.search-box{flex:1;min-width:200px;position:relative}
+.search-box input{
+ width:100%;background:var(--panel);border:1px solid var(--line);color:white;
+ padding:13px 15px 13px 40px;border-radius:9px;outline:none
+}
+.search-box input:focus{border-color:var(--orange)}
+.search-icon{position:absolute;left:14px;top:12px;color:var(--muted)}
+select{
+ background:var(--panel);color:white;border:1px solid var(--line);
+ padding:0 13px;border-radius:9px;min-height:44px;outline:none;max-width:100%
+}
+select:focus{border-color:var(--orange)}
+.filters{display:flex;flex-wrap:wrap;gap:7px;margin:0 0 16px}
+.filter-btn{
+ background:#111827;color:var(--muted);border:1px solid var(--line);
+ padding:8px 13px;border-radius:7px;font-size:11px;font-weight:700
+}
+.filter-btn:hover,.filter-btn.active{
+ color:var(--orange);border-color:var(--orange);background:#ff8a3210
+}
+.filter-row{
+ display:flex;gap:9px;align-items:center;flex-wrap:wrap;
+ padding:12px;background:#ffffff05;border:1px solid #ffffff0c;border-radius:10px;
+ margin-bottom:22px
+}
+.filter-row label{font-size:10px;color:var(--muted);font-weight:700}
+.filter-row select{min-height:36px;font-size:11px}
+.filter-check{
+ display:flex;align-items:center;gap:6px;color:var(--muted);font-size:11px;
+ padding:5px 7px
+}
+.filter-check input{accent-color:var(--orange)}
+.results-line{
+ display:flex;justify-content:space-between;align-items:center;
+ gap:12px;margin:18px 0 13px;color:var(--muted);font-size:11px
+}
+.skin-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px}
 .skin-card{
-  background:var(--panel);border:1px solid var(--border);
-  border-radius:13px;overflow:hidden;transition:.2s;
-  min-width:0;
+ background:linear-gradient(145deg,#172235,#101725);border:1px solid var(--line);
+ border-radius:13px;overflow:hidden;transition:.2s;position:relative;min-width:0
 }
 .skin-card:hover{
-  transform:translateY(-3px);border-color:#465c79;
-  box-shadow:0 12px 35px #0005;
+ transform:translateY(-4px);border-color:#ff8a3277;box-shadow:0 12px 35px #0005
 }
 .skin-image{
-  height:155px;background:radial-gradient(ellipse,#202a3a,#11151e 70%);
-  display:flex;align-items:center;justify-content:center;
-  position:relative;padding:12px;
+ height:170px;display:flex;align-items:center;justify-content:center;
+ position:relative;overflow:hidden;
+ background:radial-gradient(ellipse at center,#35445b 0%,#1b283a 45%,#121b2a 100%)
 }
-.skin-image img{max-width:100%;max-height:140px;object-fit:contain}
-.skin-image .placeholder{font-size:36px;opacity:.25}
+.skin-image::after{
+ content:"";position:absolute;inset:auto 0 0;height:1px;
+ background:linear-gradient(90deg,transparent,#ffffff25,transparent)
+}
+.skin-image img{
+ width:90%;height:90%;object-fit:contain;filter:drop-shadow(0 10px 12px #0008);
+ transition:.25s;position:relative;z-index:1
+}
+.skin-card:hover .skin-image img{transform:scale(1.08) rotate(-3deg)}
+.skin-fallback{display:none;font-size:55px;opacity:.65}
+.skin-image.no-image .skin-fallback{display:block}
+.rarity-line{height:3px;background:var(--rarity,#8b9bb2)}
 .skin-info{padding:13px}
-.skin-name{font-weight:800;font-size:14px;line-height:1.4;min-height:40px}
-.skin-weapon{font-size:11px;color:var(--muted);margin-top:4px}
-.skin-meta{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
-.tag{
-  font-size:10px;font-weight:800;padding:4px 7px;
-  border-radius:5px;background:#202938;color:#bdc9da;
+.skin-name{
+ font-size:13px;font-weight:800;margin:0 0 6px;white-space:nowrap;
+ overflow:hidden;text-overflow:ellipsis
 }
-.rarity-dot{
-  display:inline-block;width:7px;height:7px;
-  border-radius:50%;margin-right:5px;
+.skin-meta{color:var(--muted);font-size:10px;line-height:1.5}
+.skin-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
+.mini-tag{
+ color:#b8c5d8;font-size:9px;background:#ffffff0b;border:1px solid #ffffff0b;
+ padding:4px 6px;border-radius:5px
 }
-.skin-bottom{
-  display:flex;align-items:center;justify-content:space-between;
-  margin-top:12px;gap:8px;
+.skin-bottom{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:13px}
+.price{color:var(--green);font-size:12px;font-weight:800}
+.condition{color:#aab7c9;font-size:9px;background:#ffffff0c;padding:5px 7px;border-radius:5px}
+.card-actions{display:flex;gap:7px;margin-top:12px}
+.card-actions button{
+ flex:1;padding:8px 5px;border-radius:7px;font-size:10px;font-weight:800
 }
-.price{font-size:12px;color:var(--gold);font-weight:800}
-.icon-btn{
-  border:1px solid var(--border);background:#1a2230;
-  color:var(--muted);border-radius:7px;padding:7px 9px;
+.add-btn{background:var(--orange);border:0;color:#17100b}
+.add-btn:hover{filter:brightness(1.1)}
+.fav-btn{background:#ffffff0b;border:1px solid var(--line);color:white}
+.fav-btn.selected{color:var(--red);border-color:#ff647c66}
+.details-btn{
+ width:100%;margin-top:7px;padding:8px;border:1px solid var(--line);
+ background:#ffffff08;color:#dce5f2;border-radius:7px;font-size:10px;font-weight:800
 }
-.icon-btn:hover,.icon-btn.fav{color:#ff7189;border-color:#854455}
-.primary{
-  background:var(--accent2);color:white;border:0;
-  border-radius:9px;padding:11px 17px;font-weight:800;
+.details-btn:hover{border-color:var(--orange)}
+.empty-state{
+ grid-column:1/-1;text-align:center;padding:55px 15px;color:var(--muted);
+ background:var(--panel);border:1px dashed var(--line);border-radius:13px
 }
-.primary:hover{background:#438ce9}
-.secondary{
-  background:var(--panel2);color:var(--text);
-  border:1px solid var(--border);border-radius:9px;
-  padding:10px 15px;font-weight:700;
+.empty-state strong{display:block;color:white;margin-bottom:8px}
+.loading{color:var(--muted);padding:30px;text-align:center}
+.error-state{
+ color:#ffabb8;background:#ff647c0d;border:1px solid #ff647c44;
+ border-radius:12px;padding:25px;text-align:center;line-height:1.7
 }
-.empty,.loading,.error{
-  background:var(--panel);border:1px solid var(--border);
-  padding:35px;border-radius:13px;text-align:center;
-  color:var(--muted);line-height:1.7;
-}
-.error{color:#ff9aaa}
-.hidden{display:none!important}
-.page{display:none}
-.page.active{display:block}
-.case-grid{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-  gap:15px;margin-top:20px;
-}
+.case-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
 .case-card{
-  background:var(--panel);border:1px solid var(--border);
-  border-radius:14px;padding:22px;text-align:center;
+ background:linear-gradient(145deg,#19263a,#101725);border:1px solid var(--line);
+ border-radius:15px;padding:23px;text-align:center;transition:.2s
 }
-.case-icon{font-size:48px;margin:12px}
-.case-card h3{margin:8px}
-.case-card p{color:var(--muted);font-size:13px;line-height:1.5}
-.case-card button{margin-top:12px;width:100%}
-.disclaimer{
-  color:var(--muted);font-size:12px;line-height:1.6;
-  margin-top:20px;padding:13px;border:1px solid var(--border);
-  border-radius:9px;background:#0e121a;
+.case-card:hover{transform:translateY(-4px);border-color:var(--orange)}
+.case-art{
+ height:145px;display:grid;place-items:center;font-size:75px;margin-bottom:15px;
+ background:radial-gradient(circle,#ff8a3220,transparent 65%);filter:drop-shadow(0 12px 15px #0005)
 }
+.case-card h3{
+ font-family:"Barlow Condensed",sans-serif;font-size:26px;margin:0 0 7px;text-transform:uppercase
+}
+.case-card p{color:var(--muted);font-size:11px;line-height:1.6;min-height:36px}
+.case-price{color:var(--orange);font-weight:800;margin:15px 0;font-size:12px}
+.case-card button{width:100%}
+.case-note{
+ margin-top:22px;padding:14px 16px;border-radius:10px;background:#ff8a320d;
+ border:1px solid #ff8a3230;color:#c4a98e;font-size:11px;line-height:1.6
+}
+.case-result{
+ margin-top:22px;padding:22px;background:linear-gradient(145deg,#19263a,#101725);
+ border:1px solid var(--line);border-radius:15px;text-align:center
+}
+.case-result img{max-width:90%;height:210px;object-fit:contain}
+.case-result h2{font-family:"Barlow Condensed",sans-serif;font-size:34px}
+.inventory-summary{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.summary-chip{
+ background:var(--panel);border:1px solid var(--line);padding:13px 17px;
+ border-radius:10px;color:var(--muted);font-size:11px
+}
+.summary-chip strong{color:white;font-size:17px;display:block;margin-top:4px}
+.inventory-toolbar{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin-bottom:18px}
+.inventory-toolbar select{min-height:38px;font-size:11px}
+.instance-float{color:var(--blue);font-size:10px;font-weight:800}
+.pagination{
+ display:flex;justify-content:center;align-items:center;gap:8px;margin:25px 0
+}
+.pagination button{
+ background:var(--panel);color:white;border:1px solid var(--line);
+ border-radius:7px;padding:9px 13px;font-size:11px
+}
+.pagination button:disabled{opacity:.3}
+.pagination span{font-size:11px;color:var(--muted)}
+.modal-backdrop{
+ display:none;position:fixed;inset:0;z-index:50;background:#02050bd9;
+ backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:18px
+}
+.modal-backdrop.open{display:flex}
 .modal{
-  position:fixed;inset:0;background:#000b;z-index:50;
-  display:none;align-items:center;justify-content:center;padding:18px;
+ width:min(620px,100%);background:#141f30;border:1px solid #35445b;
+ border-radius:16px;padding:22px;position:relative;box-shadow:0 25px 90px #0009;
+ max-height:90vh;overflow-y:auto
 }
-.modal.open{display:flex}
-.modal-box{
-  background:var(--panel);border:1px solid var(--border);
-  border-radius:16px;width:min(650px,100%);max-height:90vh;
-  overflow:auto;padding:22px;
+.modal-close{
+ position:absolute;right:15px;top:12px;background:#ffffff12;border:0;color:white;
+ border-radius:7px;width:32px;height:32px;font-size:19px
 }
-.modal-head{display:flex;justify-content:space-between;gap:15px}
-.modal-head h2{font-size:21px;margin:0}
 .modal-image{
-  height:230px;display:flex;justify-content:center;align-items:center;
-  background:radial-gradient(ellipse,#263449,#11151e 70%);
-  border-radius:12px;margin:18px 0;
+ height:210px;display:grid;place-items:center;
+ background:radial-gradient(circle,#35445b,#111a29);border-radius:11px;margin-bottom:18px
 }
-.modal-image img{max-width:95%;max-height:210px;object-fit:contain}
-.detail-grid{
-  display:grid;grid-template-columns:repeat(2,1fr);gap:9px;
-}
+.modal-image img{max-width:90%;max-height:90%;object-fit:contain}
+.modal h2{margin:0 0 8px;font-size:21px}
+.modal p{color:var(--muted);font-size:12px;line-height:1.7}
+.modal-price{color:var(--green);font-size:18px;font-weight:800;margin:14px 0}
+.detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:15px 0}
 .detail{
-  background:var(--panel2);padding:12px;border-radius:8px;
-  min-width:0;overflow-wrap:anywhere;
+ background:#ffffff08;border:1px solid #ffffff0a;padding:11px;border-radius:8px;
+ min-width:0;overflow-wrap:anywhere
 }
-.detail small{display:block;color:var(--muted);font-size:11px}
-.detail strong{font-size:13px}
-.modal-actions{display:flex;gap:9px;margin-top:18px;flex-wrap:wrap}
-.case-result{text-align:center;padding:12px}
-.case-result img{width:90%;max-height:220px;object-fit:contain}
-.case-result h2{margin:10px 0}
+.detail small{display:block;color:var(--muted);font-size:9px;margin-bottom:5px}
+.detail strong{font-size:11px}
+.modal-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}
+.reveal-result{text-align:center;padding:18px 0}
+.reveal-result .skin-image{border-radius:12px;margin:15px 0}
+.reveal-result h2{font-family:"Barlow Condensed",sans-serif;font-size:34px}
+.toast{
+ position:fixed;bottom:22px;left:50%;transform:translate(-50%,20px);
+ background:#1c2a3d;border:1px solid #40516a;color:white;padding:12px 18px;
+ border-radius:9px;font-size:12px;font-weight:700;opacity:0;pointer-events:none;
+ transition:.25s;z-index:100;max-width:90%;text-align:center
+}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.status-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--muted);margin-right:6px}
+.status-dot.online{background:var(--green);box-shadow:0 0 9px #42d39277}
+.status-dot.offline{background:var(--red)}
+.catalog-status{font-size:10px;color:var(--muted);margin-top:8px}
 footer{
-  border-top:1px solid var(--border);padding:22px;
-  text-align:center;color:var(--muted);font-size:12px;
+ border-top:1px solid #ffffff12;padding:25px 5%;color:#66758b;
+ font-size:10px;text-align:center;line-height:1.7
 }
-@media(max-width:650px){
-  .top-inner{padding:14px}
-  main{padding:20px 14px 50px}
-  .hero{padding-top:20px}
-  .skin-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
-  .skin-image{height:115px}
-  .skin-image img{max-height:105px}
-  .skin-info{padding:10px}
-  .skin-name{font-size:12px}
-  .nav button{padding:8px 10px;font-size:12px}
-  .detail-grid{grid-template-columns:1fr 1fr}
+footer strong{color:var(--orange)}
+.hidden{display:none!important}
+@media(max-width:1000px){.skin-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:700px){
+ header{padding:0 4%;height:66px;gap:8px}
+ .logo{font-size:27px}
+ nav{gap:0}
+ .nav-btn{padding:9px 8px;font-size:10px}
+ .header-right{display:none}
+ main{width:92%}
+ .hero{padding:38px 7%;min-height:310px}
+ .hero::after{right:-10%;opacity:.6}
+ .stats{gap:7px}
+ .stat{padding:12px}
+ .stat strong{font-size:23px}
+ .stat small{font-size:9px}
+ .skin-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+ .skin-image{height:135px}
+ .skin-info{padding:10px}
+ .skin-name{font-size:11px}
+ .price{font-size:11px}
+ .condition{font-size:8px}
+ .case-grid{grid-template-columns:1fr}
+ .section-heading h2{font-size:29px}
+ .filter-row{gap:6px}
+ .filter-row select{max-width:100%;flex:1}
+}
+@media(max-width:390px){
+ .nav-btn{font-size:9px;padding:8px 6px}
+ .skin-image{height:115px}
+ .card-actions button{font-size:9px}
+ .hero h1{font-size:48px}
 }
 </style>
 </head>
-<body>
 
-<header class="topbar">
-  <div class="top-inner">
-    <div class="logo">SKIN<span>VERSE</span></div>
-    <nav class="nav">
-      <button class="active" data-page="market">Market</button>
-      <button data-page="cases">Cases</button>
-      <button data-page="inventory">Inventory</button>
-      <button data-page="favorites">Favorites</button>
-    </nav>
-    <div class="status" id="connectionStatus">● <strong>Ladataan katalogia...</strong></div>
-  </div>
+<body>
+<header>
+ <div class="logo" data-page="market">SKIN<span>VERSE</span></div>
+ <nav>
+  <button class="nav-btn active" data-page="market">Market</button>
+  <button class="nav-btn" data-page="cases">Cases</button>
+  <button class="nav-btn" data-page="inventory">Inventory</button>
+  <button class="nav-btn" data-page="favorites">Suosikit</button>
+ </nav>
+ <div class="header-right">
+  <div class="inventory-pill">INVENTORY <span id="headerCount">0</span></div>
+ </div>
 </header>
 
 <main>
-  <section class="hero">
-    <div>
-      <div class="eyebrow">Counter-Strike 2 marketplace</div>
-      <h1 id="pageTitle">Skin Market</h1>
-      <div class="subtitle" id="pageSubtitle">
-        Tutki CS2-skinien katalogia, vertaile ulkoasuja ja kerää suosikkisi.
-      </div>
-    </div>
-    <div class="stats">
-      <div class="stat"><small>Catalog skins</small><strong id="skinCount">—</strong></div>
-      <div class="stat"><small>Favorites</small><strong id="favoriteCount">0</strong></div>
-      <div class="stat"><small>Inventory items</small><strong id="inventoryCount">0</strong></div>
-    </div>
-  </section>
+<!-- MARKET -->
+<section class="page active" id="market">
+ <div class="hero">
+  <div class="hero-content">
+   <div class="eyebrow">THE NEXT LEVEL OF SKIN TRADING</div>
+   <h1>YOUR SKINS.<br><span>YOUR STYLE.</span></h1>
+   <p>
+    Tutustu CS2-skinien maailmaan. Selaa aseita, veitsiä ja hanskoja,
+    tutki float-arvoja, rakenna oma inventaario ja kerää suosikkisi.
+   </p>
+   <div class="hero-actions">
+    <button class="primary-btn" data-page="market">EXPLORE MARKET →</button>
+    <button class="secondary-btn" data-page="cases">OPEN CASES</button>
+   </div>
+   <div class="catalog-status" id="catalogStatus">
+    <span class="status-dot"></span>Connecting to skin catalog...
+   </div>
+  </div>
+ </div>
 
-  <section class="page active" id="page-market">
-    <div class="toolbar">
-      <input class="search" id="searchInput" placeholder="Search skins, weapons..." autocomplete="off">
-      <select id="sortSelect">
-        <option value="default">Default order</option>
-        <option value="name">Name A–Z</option>
-        <option value="rarity">Rarity</option>
-      </select>
-      <select id="wearSelect">
-        <option value="all">All conditions</option>
-        <option>Factory New</option>
-        <option>Minimal Wear</option>
-        <option>Field-Tested</option>
-        <option>Well-Worn</option>
-        <option>Battle-Scarred</option>
-      </select>
-      <select id="variantSelect">
-        <option value="all">All variants</option>
-        <option value="stattrak">StatTrak™</option>
-        <option value="souvenir">Souvenir</option>
-      </select>
-    </div>
+ <div class="stats">
+  <div class="stat"><strong id="skinCount">—</strong><small>CATALOG ENTRIES</small></div>
+  <div class="stat"><strong id="inventoryStat">0</strong><small>INVENTORY ITEMS</small></div>
+  <div class="stat"><strong id="favoriteStat">0</strong><small>FAVORITES</small></div>
+ </div>
 
-    <div class="filters" id="categoryFilters">
-      <button class="filter active" data-category="all">All</button>
-      <button class="filter" data-category="Rifles">Rifles</button>
-      <button class="filter" data-category="Pistols">Pistols</button>
-      <button class="filter" data-category="SMGs">SMGs</button>
-      <button class="filter" data-category="Heavy">Heavy</button>
-      <button class="filter" data-category="Knives">Knives</button>
-      <button class="filter" data-category="Gloves">Gloves</button>
-    </div>
+ <div class="section-heading">
+  <div><h2>Skin market</h2><p>Browse the CS2 skin catalog</p></div>
+ </div>
 
-    <div class="section-heading">
-      <h2>Available skins</h2>
-      <span class="muted" id="resultCount">Loading...</span>
-    </div>
-    <div id="marketGrid" class="skin-grid">
-      <div class="loading">Ladataan CS2-skinien katalogia...<br>Hetki vain, asekaappi järjestyy.</div>
-    </div>
-  </section>
+ <div class="toolbar">
+  <div class="search-box">
+   <span class="search-icon">⌕</span>
+   <input id="searchInput" type="search" placeholder="Search skins, weapons, finishes...">
+  </div>
+  <select id="sortSelect">
+   <option value="featured">Featured</option>
+   <option value="az">Name: A–Z</option>
+   <option value="za">Name: Z–A</option>
+   <option value="rarity">Rarity: rarest first</option>
+   <option value="floatlow">Lowest minimum float</option>
+  </select>
+ </div>
 
-  <section class="page" id="page-cases">
-    <div class="section-heading">
-      <h2>Case Simulator</h2>
-      <span class="muted">Virtual opening</span>
-    </div>
-    <p class="subtitle">
-      Avaa virtuaalisia laatikoita ja katso, mitä katalogista voisi osua kohdalle.
-      Tulokset ovat satunnaisia simulaatioita.
-    </p>
-    <div class="case-grid">
-      <div class="case-card">
-        <div class="case-icon">📦</div>
-        <h3>Standard Case</h3>
-        <p>Tavallinen avaus. Mahdollisuus eri harvinaisuuksiin.</p>
-        <button class="primary" onclick="openCase('standard')">Open case</button>
-      </div>
-      <div class="case-card">
-        <div class="case-icon">💎</div>
-        <h3>Premium Case</h3>
-        <p>Painotus harvinaisempiin skineihin. Täysin virtuaalinen.</p>
-        <button class="primary" onclick="openCase('premium')">Open case</button>
-      </div>
-      <div class="case-card">
-        <div class="case-icon">🔪</div>
-        <h3>Special Case</h3>
-        <p>Erikoisavaus veitsille ja hanskoille, jos niitä löytyy katalogista.</p>
-        <button class="primary" onclick="openCase('special')">Open case</button>
-      </div>
-    </div>
-    <div class="disclaimer">
-      <strong>Huomio:</strong> Tämä on vain virtuaalinen simulaattori.
-      Avaaminen ei käytä oikeaa rahaa, ei ole yhteydessä Steamiin eikä tuota
-      oikeita Steam-esineitä. Todellisia pudotustodennäköisyyksiä ei taata.
-    </div>
-    <div id="caseOutput" class="hidden" style="margin-top:22px"></div>
-  </section>
+ <div class="filters" id="filters">
+  <button class="filter-btn active" data-filter="All">All</button>
+  <button class="filter-btn" data-filter="Rifles">Rifles</button>
+  <button class="filter-btn" data-filter="Pistols">Pistols</button>
+  <button class="filter-btn" data-filter="SMGs">SMGs</button>
+  <button class="filter-btn" data-filter="Heavy">Heavy</button>
+  <button class="filter-btn" data-filter="Knives">Knives</button>
+  <button class="filter-btn" data-filter="Gloves">Gloves</button>
+ </div>
 
-  <section class="page" id="page-inventory">
-    <div class="section-heading">
-      <h2>Your Inventory</h2>
-      <span class="muted">Saved in this browser</span>
-    </div>
-    <div id="inventoryGrid" class="skin-grid"></div>
-    <div class="disclaimer">
-      Inventaario tallennetaan selaimesi paikalliseen tallennustilaan.
-      Hintoja ei ole vielä lisätty, joten inventaarion arvoa ei lasketa.
-    </div>
-  </section>
+ <div class="filter-row">
+  <label for="wearFilter">WEAR</label>
+  <select id="wearFilter">
+   <option value="all">All conditions</option>
+   <option value="Factory New">Factory New</option>
+   <option value="Minimal Wear">Minimal Wear</option>
+   <option value="Field-Tested">Field-Tested</option>
+   <option value="Well-Worn">Well-Worn</option>
+   <option value="Battle-Scarred">Battle-Scarred</option>
+   <option value="none">No wear specified</option>
+  </select>
+  <label for="rarityFilter">RARITY</label>
+  <select id="rarityFilter"><option value="all">All rarities</option></select>
+  <label for="variantFilter">VARIANT</label>
+  <select id="variantFilter">
+   <option value="all">All variants</option>
+   <option value="stattrak">StatTrak™</option>
+   <option value="souvenir">Souvenir</option>
+  </select>
+  <label class="filter-check"><input type="checkbox" id="onlyImages"> Images only</label>
+  <label class="filter-check"><input type="checkbox" id="onlyFloat"> Float data only</label>
+ </div>
 
-  <section class="page" id="page-favorites">
-    <div class="section-heading">
-      <h2>Your Favorites</h2>
-      <span class="muted">Your saved skins</span>
-    </div>
-    <div id="favoritesGrid" class="skin-grid"></div>
-  </section>
+ <div class="results-line">
+  <span id="resultCount">Loading catalog...</span>
+  <span id="pageInfo"></span>
+ </div>
+ <div class="skin-grid" id="marketGrid">
+  <div class="loading">Ladataan CS2-skinikatalogia...</div>
+ </div>
+ <div class="pagination" id="pagination"></div>
+</section>
+
+<!-- CASES -->
+<section class="page" id="cases">
+ <div class="section-heading">
+  <div>
+   <div class="eyebrow">TEST YOUR LUCK</div>
+   <h2>Case simulator</h2>
+   <p>Avaa virtuaalisia caseja ja kerää skinejä inventaarioosi.</p>
+  </div>
+ </div>
+
+ <div class="case-grid">
+  <div class="case-card">
+   <div class="case-art">📦</div><h3>Starter case</h3>
+   <p>Kevyt aloituspaketti. Tavallisemmat harvinaisuudet painottuvat.</p>
+   <div class="case-price">VIRTUAL CASE</div>
+   <button class="primary-btn" data-case="starter">OPEN CASE</button>
+  </div>
+  <div class="case-card">
+   <div class="case-art">🧰</div><h3>Elite case</h3>
+   <p>Mahdollisuus saada harvinaisempia aseiden skinejä.</p>
+   <div class="case-price">VIRTUAL CASE</div>
+   <button class="primary-btn" data-case="elite">OPEN CASE</button>
+  </div>
+  <div class="case-card">
+   <div class="case-art">💎</div><h3>Legendary case</h3>
+   <p>Harvinaisuuksiin painottuva simulaatio. Pudotus ei ole taattu.</p>
+   <div class="case-price">VIRTUAL CASE</div>
+   <button class="primary-btn" data-case="legendary">OPEN CASE</button>
+  </div>
+  <div class="case-card">
+   <div class="case-art">🔪</div><h3>Knife case</h3>
+   <p>Veitsiin ja hanskoihin rajattu erikoissimulaatio.</p>
+   <div class="case-price">SPECIAL POOL</div>
+   <button class="primary-btn" data-case="special">OPEN CASE</button>
+  </div>
+ </div>
+
+ <div class="case-note">
+  <strong>Huom:</strong> Tämä on viihteellinen simulaattori. Avaaminen ei käytä oikeaa
+  rahaa eikä ole yhteydessä Steamiin. Pudotukset eivät vastaa minkään oikean CS2-casen
+  virallisia todennäköisyyksiä. Case-simulaattorin float on satunnaisesti generoitu
+  simulaatioarvo skinin ilmoitetun float-alueen sisällä.
+ </div>
+ <div id="caseOutput" class="hidden"></div>
+</section>
+
+<!-- INVENTORY -->
+<section class="page" id="inventory">
+ <div class="section-heading">
+  <div><div class="eyebrow">YOUR COLLECTION</div><h2>My inventory</h2>
+   <p>Kaikki lisäämäsi ja caseista saamasi yksittäiset esineet.</p>
+  </div>
+ </div>
+ <div class="inventory-summary">
+  <div class="summary-chip">ITEMS<strong id="inventoryItems">0</strong></div>
+  <div class="summary-chip">ESTIMATED VALUE<strong id="inventoryValue">Ei saatavilla</strong></div>
+  <div class="summary-chip">UNIQUE SKINS<strong id="inventoryUnique">0</strong></div>
+ </div>
+ <div class="inventory-toolbar">
+  <select id="inventorySort">
+   <option value="newest">Newest first</option>
+   <option value="oldest">Oldest first</option>
+   <option value="name">Name A–Z</option>
+   <option value="float">Lowest float first</option>
+  </select>
+  <button class="secondary-btn" id="exportInventory">EXPORT INVENTORY</button>
+ </div>
+ <div class="skin-grid" id="inventoryGrid"></div>
+</section>
+
+<!-- FAVORITES -->
+<section class="page" id="favorites">
+ <div class="section-heading">
+  <div><div class="eyebrow">SAVED FOR LATER</div><h2>Your favorites</h2>
+   <p>Skinit, jotka olet merkinnyt suosikeiksi.</p>
+  </div>
+ </div>
+ <div class="skin-grid" id="favoritesGrid"></div>
+</section>
 </main>
 
 <footer>
-  SKINVERSE · Community CS2 skin catalog · Not affiliated with Valve or Steam
+ <strong>SKINVERSE</strong> — Unofficial CS2 skin catalog & case simulator.
+ Not affiliated with Valve Corporation or Steam.
+ <br>Catalog data and images are provided by the configured community API.
+ <br>No real-money transactions. Prices will be added in a future update.
 </footer>
 
-<div class="modal" id="skinModal" onclick="if(event.target===this)closeModal()">
-  <div class="modal-box">
-    <div class="modal-head">
-      <h2 id="modalTitle">Skin details</h2>
-      <button class="icon-btn" onclick="closeModal()">✕</button>
-    </div>
-    <div id="modalContent"></div>
-  </div>
+<div class="modal-backdrop" id="modalBackdrop">
+ <div class="modal">
+  <button class="modal-close" id="modalClose">×</button>
+  <div id="modalBody"></div>
+ </div>
 </div>
+<div class="toast" id="toast"></div>
 
 <script>
 "use strict";
 
-const API_URL =
-  "https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/skins_not_grouped.json";
+/* =========================================================
+   SKINVERSE CONFIGURATION
+========================================================= */
 
-const STORAGE = {
-  inventory: "skinverse_inventory_v2",
-  favorites: "skinverse_favorites_v2"
+const API_URL =
+ "https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/skins_not_grouped.json";
+
+const STORAGE_KEYS = {
+ inventory:"skinverse_inventory_v2",
+ favorites:"skinverse_favorites_v2",
+ settings:"skinverse_settings_v2"
+};
+
+const PAGE_SIZE = 48;
+const WEAR_NAMES = [
+ "Factory New","Minimal Wear","Field-Tested","Well-Worn","Battle-Scarred"
+];
+
+const WEAR_RANGES = [
+ {name:"Factory New",min:0,max:0.07},
+ {name:"Minimal Wear",min:0.07,max:0.15},
+ {name:"Field-Tested",min:0.15,max:0.38},
+ {name:"Well-Worn",min:0.38,max:0.45},
+ {name:"Battle-Scarred",min:0.45,max:1}
+];
+
+const RARITY_ORDER = {
+ "Consumer Grade":1,"Base Grade":1,
+ "Industrial Grade":2,
+ "Mil-Spec Grade":3,"High Grade":3,
+ "Restricted":4,"Remarkable":4,
+ "Classified":5,"Exotic":5,
+ "Covert":6,"Extraordinary":7,
+ "Contraband":8,"Distinguished":3,
+ "Superior":4,"Master":7
+};
+
+const CATEGORY_WEAPONS = {
+ Pistols:[
+  "Glock-18","USP-S","P2000","Desert Eagle","Dual Berettas",
+  "Five-SeveN","P250","Tec-9","CZ75-Auto","R8 Revolver"
+ ],
+ SMGs:["MAC-10","MP9","MP7","MP5-SD","UMP-45","P90","PP-Bizon"],
+ Heavy:["Nova","XM1014","MAG-7","Sawed-Off","M249","Negev"]
 };
 
 let skins = [];
 let skinById = new Map();
-let inventory = {};
-let favorites = new Set();
-let activeCategory = "all";
-let currentPage = "market";
+let activeFilter = "All";
+let activePage = "market";
+let currentPageNumber = 1;
+let inventory = [];
+let favorites = [];
+let openingCase = false;
+let catalogLoaded = false;
+let lastCatalogError = null;
 
-const rarityOrder = {
-  "Consumer Grade":1,
-  "Industrial Grade":2,
-  "Mil-Spec Grade":3,
-  "Restricted":4,
-  "Classified":5,
-  "Covert":6,
-  "Contraband":7,
-  "Extraordinary":8,
-  "Exotic":8,
-  "Distinguished":8,
-  "Master":8
+/* =========================================================
+   SAFE STORAGE AND HELPERS
+========================================================= */
+
+function loadSaved(key,fallback){
+ try{
+  const value = JSON.parse(localStorage.getItem(key));
+  return value ?? fallback;
+ }catch(error){
+  console.warn("Could not read local storage:",key,error);
+  return fallback;
+ }
+}
+
+function saveData(){
+ try{
+  localStorage.setItem(STORAGE_KEYS.inventory,JSON.stringify(inventory));
+  localStorage.setItem(STORAGE_KEYS.favorites,JSON.stringify(favorites));
+ }catch(error){
+  console.error("Could not save local data:",error);
+  showToast("Tallennus epäonnistui. Selaimen tallennustila voi olla täynnä.");
+ }
+}
+
+function escapeHTML(value){
+ return String(value ?? "").replace(/[&<>"']/g,char=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"
+ })[char]);
+}
+
+function safeURL(value){
+ if(typeof value!=="string"||!value.trim())return "";
+ try{
+  const url=new URL(value);
+  return url.protocol==="https:"||url.protocol==="http:"?url.href:"";
+ }catch{return ""}
+}
+
+function cleanText(value){
+ return String(value??"").trim();
+}
+
+function normalized(value){
+ return cleanText(value).toLocaleLowerCase("en");
+}
+
+function numberOrNull(value){
+ if(value===null||value===undefined||value==="")return null;
+ const number=Number(value);
+ return Number.isFinite(number)?number:null;
+}
+
+function randomId(){
+ if(window.crypto?.randomUUID)return crypto.randomUUID();
+ return "sv-"+Date.now().toString(36)+"-"+Math.random().toString(36).slice(2);
+}
+
+function money(value){
+ const number=numberOrNull(value);
+ if(number===null)return "Hinta myöhemmin";
+ return "€"+number.toLocaleString("fi-FI",{minimumFractionDigits:2,maximumFractionDigits:2});
+}
+
+function showToast(message){
+ const toast=document.getElementById("toast");
+ toast.textContent=message;
+ toast.classList.add("show");
+ clearTimeout(showToast.timer);
+ showToast.timer=setTimeout(()=>toast.classList.remove("show"),2500);
+}
+
+function rarityColor(skin){
+ const value=cleanText(skin.rarityColor).replace("#","");
+ return /^[0-9a-f]{6}$/i.test(value)?"#"+value:"#8b9bb2";
+}
+
+function rarityRank(name){
+ return RARITY_ORDER[name]||0;
+}
+
+/* =========================================================
+   CATALOG NORMALIZATION
+========================================================= */
+
+function extractWear(name){
+ const text=cleanText(name);
+ return WEAR_NAMES.find(wear=>
+  text.toLowerCase().endsWith(" ("+wear.toLowerCase()+")")
+ )||"";
+}
+
+function stripWear(name){
+ return cleanText(name).replace(
+  /\s+\((Factory New|Minimal Wear|Field-Tested|Well-Worn|Battle-Scarred)\)$/i,""
+ );
+}
+
+function getMarketName(item){
+ return cleanText(
+  item.market_hash_name||
+  item.marketHashName||
+  item.name||
+  item.id||
+  "Unknown skin"
+ );
+}
+
+function getWeaponName(item){
+ return cleanText(item.weapon?.name||item.weapon_name||item.weaponName||
+  item.category?.name||"Unknown weapon");
+}
+
+function classifySkin(item){
+ const weapon=getWeaponName(item);
+ const category=cleanText(item.category?.name||item.category||"");
+ const combined=(weapon+" "+category+" "+getMarketName(item)).toLowerCase();
+
+ if(/glove|hand wraps/.test(combined))return "Gloves";
+
+ if(/knife|bayonet|karambit|kukri|daggers|talon|ursus|stiletto|navaja|nomad|paracord|skeleton|survival|bowie|falchion|flip knife|gut knife|huntsman/.test(combined)){
+  return "Knives";
+ }
+
+ for(const [group,names] of Object.entries(CATEGORY_WEAPONS)){
+  if(names.some(name=>name.toLowerCase()===weapon.toLowerCase()))return group;
+ }
+
+ if(/pistol/.test(category.toLowerCase()))return "Pistols";
+ if(/smg/.test(category.toLowerCase()))return "SMGs";
+ if(/heavy|shotgun|machine gun/.test(category.toLowerCase()))return "Heavy";
+ if(/knife/.test(category.toLowerCase()))return "Knives";
+ if(/glove/.test(category.toLowerCase()))return "Gloves";
+
+ return "Rifles";
+}
+
+function readBoolean(...values){
+ return values.some(value=>value===true||value===1||value==="true");
+}
+
+function normalizeSkin(item,index){
+ const marketName=getMarketName(item);
+ const baseName=stripWear(marketName);
+ const wear=cleanText(item.wear?.name||item.wear_name||item.condition||extractWear(marketName));
+ const weaponName=getWeaponName(item);
+ const rarityName=cleanText(item.rarity?.name||item.rarity_name||"Unknown rarity");
+ const sourceId=cleanText(item.id||marketName||String(index));
+ const id=sourceId.replace(/[^a-zA-Z0-9_-]/g,"_")+"_"+index;
+
+ const minFloat=numberOrNull(item.min_float??item.minFloat);
+ const maxFloat=numberOrNull(item.max_float??item.maxFloat);
+ const image=safeURL(item.image||item.image_url||item.icon||"");
+
+ const stattrak=readBoolean(item.stattrak,item.statTrak,item.stat_trak)||
+  /^StatTrak™/i.test(marketName);
+ const souvenir=readBoolean(item.souvenir,item.is_souvenir)||
+  /^Souvenir/i.test(marketName);
+
+ return {
+  id,sourceId,marketName,baseName,
+  name:baseName,
+  weaponName,
+  category:classifySkin(item),
+  wear,
+  rarity:rarityName,
+  rarityColor:item.rarity?.color||item.rarity_color||"",
+  minFloat,maxFloat,image,
+  stattrak,souvenir,
+  phase:cleanText(item.phase||item.paint_index||""),
+  pattern:cleanText(item.pattern?.name||item.pattern||""),
+  description:cleanText(item.description||""),
+  collection:cleanText(item.collections?.[0]?.name||item.collection?.name||""),
+  raw:item
+ };
+}
+
+function buildCatalog(data){
+ if(!Array.isArray(data))throw new Error("API ei palauttanut listaa.");
+
+ const seen=new Set();
+ const result=[];
+
+ data.forEach((item,index)=>{
+  if(!item||typeof item!=="object")return;
+
+  const skin=normalizeSkin(item,index);
+  const uniqueKey=skin.marketName+"|"+skin.sourceId;
+
+  if(seen.has(uniqueKey))return;
+  seen.add(uniqueKey);
+
+  if(!skin.name||skin.name==="Unknown skin")return;
+  result.push(skin);
+ });
+
+ return result;
+}
+
+function fillRarityFilter(){
+ const select=document.getElementById("rarityFilter");
+ const current=select.value;
+ const rarities=[...new Set(skins.map(s=>s.rarity).filter(Boolean))]
+  .sort((a,b)=>rarityRank(a)-rarityRank(b)||a.localeCompare(b));
+
+ select.innerHTML='<option value="all">All rarities</option>'+
+  rarities.map(r=>`<option value="${escapeHTML(r)}">${escapeHTML(r)}</option>`).join("");
+
+ if(rarities.includes(current))select.value=current;
+}
+
+/* =========================================================
+   LEGACY DATA MIGRATION
+========================================================= */
+
+function loadLegacyData(){
+ const oldInventory=loadSaved(STORAGE_KEYS.inventory,{});
+ const oldFavorites=loadSaved(STORAGE_KEYS.favorites,[]);
+
+ if(Array.isArray(oldInventory)){
+  inventory=oldInventory.filter(item=>item&&typeof item==="object");
+ }else if(oldInventory&&typeof oldInventory==="object"){
+  inventory=Object.entries(oldInventory).map(([id,count])=>({
+   instanceId:randomId(),
+   skinId:String(id),
+   count:Number(count)||0,
+   float:null,
+   source:"legacy",
+   acquiredAt:Date.now()
+  })).filter(item=>item.count>0);
+ }else{
+  inventory=[];
+ }
+
+ if(Array.isArray(oldFavorites)){
+  favorites=[...new Set(oldFavorites.map(String))];
+ }else{
+  favorites=[];
+ }
+}
+
+function migrateLegacyReferences(){
+ // Aiemmat demotunnisteet pyritään yhdistämään markkinanimiin.
+ const aliases={
+  redline:"AK-47 | Redline",
+  asiimov:"AWP | Asiimov",
+  neonoir:"M4A4 | Neo-Noir",
+  water:"Glock-18 | Water Elemental",
+  karambit:"Karambit | Doppler",
+  killconfirmed:"USP-S | Kill Confirmed",
+  dragonlore:"AWP | Dragon Lore",
+  printstream:"M4A1-S | Printstream"
+ };
+
+ inventory=inventory.map(entry=>{
+  if(skinById.has(entry.skinId))return entry;
+
+  const alias=aliases[entry.skinId];
+  if(alias){
+   const match=skins.find(s=>normalized(s.name).includes(normalized(alias)));
+   if(match)return {...entry,skinId:match.id};
+  }
+
+  const match=skins.find(s=>s.sourceId===entry.skinId||s.marketName===entry.skinId);
+  return match?{...entry,skinId:match.id}:entry;
+ });
+
+ favorites=favorites.map(id=>{
+  if(skinById.has(id))return id;
+  const alias=aliases[id];
+  const match=skins.find(s=>
+   s.sourceId===id||
+   s.marketName===id||
+   (alias&&normalized(s.name).includes(normalized(alias)))
+  );
+  return match?match.id:id;
+ });
+
+ favorites=[...new Set(favorites)];
+ saveData();
+}
+
+/* =========================================================
+   INVENTORY INSTANCE MODEL
+========================================================= */
+
+function getSkin(id){
+ return skinById.get(String(id))||null;
+}
+
+function getWearFromFloat(value){
+ if(!Number.isFinite(value))return "Unknown";
+ const match=WEAR_RANGES.find(range=>value>=range.min&&value<=range.max);
+ return match?match.name:"Unknown";
+}
+
+function randomFloatForSkin(skin){
+ if(skin.minFloat===null||skin.maxFloat===null)return null;
+ if(skin.maxFloat<skin.minFloat)return null;
+
+ const value=skin.minFloat+Math.random()*(skin.maxFloat-skin.minFloat);
+ return Math.min(skin.maxFloat,Math.max(skin.minFloat,value));
+}
+
+function addInstance(skin,options={}){
+ if(!skin)return null;
+
+ const instance={
+  instanceId:randomId(),
+  skinId:skin.id,
+  float:options.float??null,
+  floatType:options.floatType||"not-generated",
+  seed:options.seed??null,
+  source:options.source||"market",
+  acquiredAt:Date.now(),
+  simulated:options.simulated===true
+ };
+
+ inventory.unshift(instance);
+ saveData();
+ renderAll();
+ return instance;
+}
+
+function removeInstance(instanceId){
+ const before=inventory.length;
+ inventory=inventory.filter(item=>item.instanceId!==instanceId);
+ if(inventory.length===before)return;
+ saveData();
+ renderAll();
+ showToast("Esine poistettu inventaariosta.");
+}
+
+function addToInventory(id){
+ const skin=getSkin(id);
+ if(!skin)return;
+ addInstance(skin,{source:"market"});
+ showToast("Skin lisätty inventaarioon!");
+}
+
+function countInventory(){
+ return inventory.length;
+}
+
+function countUniqueInventory(){
+ return new Set(inventory.map(item=>item.skinId)).size;
+}
+
+function countFavorites(){
+ return favorites.length;
+}
+
+/* =========================================================
+   IMAGE AND CARD RENDERING
+========================================================= */
+
+function skinImage(skin,extraClass=""){
+ const url=safeURL(skin.image);
+ const icon=skin.category==="Knives"?"🔪":skin.category==="Gloves"?"🧤":"🔫";
+ const image=url?
+  `<img src="${escapeHTML(url)}" alt="${escapeHTML(skin.name)}" loading="lazy"
+   onerror="this.remove();this.parentElement.classList.add('no-image')">`:"";
+
+ return `
+  <div class="skin-image ${url?"":"no-image"} ${extraClass}">
+   ${image}<span class="skin-fallback">${icon}</span>
+  </div>`;
+}
+
+function skinTags(skin){
+ const tags=[];
+ if(skin.wear)tags.push(skin.wear);
+ if(skin.stattrak)tags.push("StatTrak™");
+ if(skin.souvenir)tags.push("Souvenir");
+ if(skin.phase)tags.push("Phase "+skin.phase);
+ return tags.slice(0,4).map(tag=>`<span class="mini-tag">${escapeHTML(tag)}</span>`).join("");
+}
+
+function skinCard(skin,options={}){
+ const isFavorite=favorites.includes(skin.id);
+ const instance=options.instance||null;
+ const instanceFloat=instance&&Number.isFinite(instance.float)?instance.float:null;
+ const condition=instanceFloat!==null?getWearFromFloat(instanceFloat):(skin.wear||"Not specified");
+
+ return `
+ <article class="skin-card">
+  <div class="rarity-line" style="--rarity:${rarityColor(skin)}"></div>
+  <div data-action="details" data-id="${escapeHTML(skin.id)}">
+   ${skinImage(skin)}
+  </div>
+  <div class="skin-info">
+   <h3 class="skin-name" title="${escapeHTML(skin.marketName)}">${escapeHTML(skin.name)}</h3>
+   <div class="skin-meta">${escapeHTML(skin.weaponName)} · ${escapeHTML(skin.category)}</div>
+   <div class="skin-tags">${skinTags(skin)}</div>
+   <div class="skin-bottom">
+    <span class="price">Hinta myöhemmin</span>
+    <span class="condition">${escapeHTML(condition)}</span>
+   </div>
+   ${instanceFloat!==null?`<div class="instance-float">Float: ${instanceFloat.toFixed(8)}${instance.simulated?" · simulated":""}</div>`:""}
+   <div class="card-actions">
+    ${instance?
+     `<button class="add-btn" data-action="remove-instance" data-instance="${escapeHTML(instance.instanceId)}">REMOVE</button>`:
+     `<button class="add-btn" data-action="add" data-id="${escapeHTML(skin.id)}">+ INVENTORY</button>`
+    }
+    <button class="fav-btn ${isFavorite?"selected":""}" data-action="favorite" data-id="${escapeHTML(skin.id)}">
+     ${isFavorite?"♥ SAVED":"♡ SAVE"}
+    </button>
+   </div>
+   <button class="details-btn" data-action="details" data-id="${escapeHTML(skin.id)}">VIEW DETAILS</button>
+  </div>
+ </article>`;
+}
+
+/* =========================================================
+   MARKET FILTERING, SEARCH AND PAGINATION
+========================================================= */
+
+function getFilteredSkins(){
+ const search=normalized(document.getElementById("searchInput").value);
+ const sort=document.getElementById("sortSelect").value;
+ const wear=document.getElementById("wearFilter").value;
+ const rarity=document.getElementById("rarityFilter").value;
+ const variant=document.getElementById("variantFilter").value;
+ const imagesOnly=document.getElementById("onlyImages").checked;
+ const floatOnly=document.getElementById("onlyFloat").checked;
+
+ let result=skins.filter(skin=>{
+  const searchable=[
+   skin.name,skin.marketName,skin.weaponName,skin.category,
+   skin.rarity,skin.wear,skin.collection,skin.pattern
+  ].join(" ").toLowerCase();
+
+  const matchesSearch=!search||searchable.includes(search);
+  const matchesCategory=activeFilter==="All"||skin.category===activeFilter;
+  const matchesWear=wear==="all"||
+   (wear==="none"?!skin.wear:skin.wear===wear);
+  const matchesRarity=rarity==="all"||skin.rarity===rarity;
+  const matchesVariant=variant==="all"||
+   (variant==="stattrak"&&skin.stattrak)||
+   (variant==="souvenir"&&skin.souvenir);
+  const matchesImage=!imagesOnly||Boolean(skin.image);
+  const matchesFloat=!floatOnly||(skin.minFloat!==null&&skin.maxFloat!==null);
+
+  return matchesSearch&&matchesCategory&&matchesWear&&matchesRarity&&
+   matchesVariant&&matchesImage&&matchesFloat;
+ });
+
+ if(sort==="az")result.sort((a,b)=>a.name.localeCompare(b.name));
+ if(sort==="za")result.sort((a,b)=>b.name.localeCompare(a.name));
+ if(sort==="rarity")result.sort((a,b)=>rarityRank(b.rarity)-rarityRank(a.rarity));
+ if(sort==="floatlow")result.sort((a,b)=>(a.minFloat??2)-(b.minFloat??2));
+
+ return result;
+}
+
+function renderMarket(){
+ const all=getFilteredSkins();
+ const totalPages=Math.max(1,Math.ceil(all.length/PAGE_SIZE));
+ currentPageNumber=Math.min(currentPageNumber,totalPages);
+
+ const start=(currentPageNumber-1)*PAGE_SIZE;
+ const visible=all.slice(start,start+PAGE_SIZE);
+
+ document.getElementById("resultCount").textContent=
+  `${all.length.toLocaleString("fi-FI")} results · ${skins.length.toLocaleString("fi-FI")} catalog entries`;
+
+ document.getElementById("pageInfo").textContent=
+  `Page ${currentPageNumber} / ${totalPages}`;
+
+ document.getElementById("marketGrid").innerHTML=visible.length?
+  visible.map(skin=>skinCard(skin)).join("") :
+  `<div class="empty-state"><strong>No skins found</strong>Try another search or filter.</div>`;
+
+ renderPagination(totalPages);
+}
+
+function renderPagination(totalPages){
+ const holder=document.getElementById("pagination");
+ if(totalPages<=1){holder.innerHTML="";return}
+
+ holder.innerHTML=`
+  <button data-page-number="${currentPageNumber-1}" ${currentPageNumber===1?"disabled":""}>← Previous</button>
+  <span>Page ${currentPageNumber} of ${totalPages}</span>
+  <button data-page-number="${currentPageNumber+1}" ${currentPageNumber===totalPages?"disabled":""}>Next →</button>`;
+}
+
+/* =========================================================
+   INVENTORY AND FAVORITES
+========================================================= */
+
+function renderInventory(){
+ const sorted=[...inventory];
+ const sort=document.getElementById("inventorySort")?.value||"newest";
+
+ if(sort==="newest")sorted.sort((a,b)=>b.acquiredAt-a.acquiredAt);
+ if(sort==="oldest")sorted.sort((a,b)=>a.acquiredAt-b.acquiredAt);
+ if(sort==="name")sorted.sort((a,b)=>(getSkin(a.skinId)?.name||"").localeCompare(getSkin(b.skinId)?.name||""));
+ if(sort==="float")sorted.sort((a,b)=>(a.float??2)-(b.float??2));
+
+ const valid=sorted.filter(entry=>getSkin(entry.skinId));
+ const total=valid.length;
+
+ document.getElementById("inventoryItems").textContent=total;
+ document.getElementById("inventoryUnique").textContent=
+  new Set(valid.map(entry=>entry.skinId)).size;
+
+ // Hintoja ei vielä ole. Arvoa ei saa laskea nollaksi.
+ document.getElementById("inventoryValue").textContent="Ei saatavilla";
+
+ const grid=document.getElementById("inventoryGrid");
+ if(!valid.length){
+  grid.innerHTML=`<div class="empty-state"><strong>Your inventory is empty</strong>
+   Lisää skinejä Marketista tai avaa case!</div>`;
+  return;
+ }
+
+ grid.innerHTML=valid.map(entry=>{
+  const skin=getSkin(entry.skinId);
+  return skinCard(skin,{instance:entry});
+ }).join("");
+}
+
+function renderFavorites(){
+ const list=favorites.map(getSkin).filter(Boolean);
+ document.getElementById("favoritesGrid").innerHTML=list.length?
+  list.map(skin=>skinCard(skin)).join("") :
+  `<div class="empty-state"><strong>No favorites yet</strong>
+   Paina skineistä ♡ SAVE lisätäksesi ne tänne.</div>`;
+}
+
+function renderStats(){
+ const count=countInventory();
+ document.getElementById("headerCount").textContent=count;
+ document.getElementById("inventoryStat").textContent=count;
+ document.getElementById("favoriteStat").textContent=countFavorites();
+}
+
+function renderAll(){
+ renderMarket();
+ renderInventory();
+ renderFavorites();
+ renderStats();
+}
+
+function toggleFavorite(id){
+ if(favorites.includes(id)){
+  favorites=favorites.filter(item=>item!==id);
+  showToast("Removed from favorites.");
+ }else{
+  favorites.push(id);
+  showToast("Added to favorites!");
+ }
+ saveData();
+ renderAll();
+}
+
+/* =========================================================
+   SKIN DETAILS MODAL
+========================================================= */
+
+function openModal(content){
+ document.getElementById("modalBody").innerHTML=content;
+ document.getElementById("modalBackdrop").classList.add("open");
+}
+
+function closeModal(){
+ document.getElementById("modalBackdrop").classList.remove("open");
+}
+
+function showDetails(id){
+ const skin=getSkin(id);
+ if(!skin)return;
+
+ const floatRange=skin.minFloat!==null&&skin.maxFloat!==null?
+  `${skin.minFloat.toFixed(8)} – ${skin.maxFloat.toFixed(8)}`:
+  "Not provided by source";
+
+ const collection=skin.collection||"Not provided";
+ const pattern=skin.pattern||"Not provided";
+
+ openModal(`
+  ${skinImage(skin,"modal-image")}
+  <div class="eyebrow">${escapeHTML(skin.category)}</div>
+  <h2>${escapeHTML(skin.name)}</h2>
+  <p>${escapeHTML(skin.weaponName)} · ${escapeHTML(skin.rarity)}</p>
+  <div class="modal-price">Hinta myöhemmin</div>
+  <div class="detail-grid">
+   <div class="detail"><small>WEAR</small><strong>${escapeHTML(skin.wear||"Not specified")}</strong></div>
+   <div class="detail"><small>RARITY</small><strong>${escapeHTML(skin.rarity)}</strong></div>
+   <div class="detail"><small>MIN FLOAT</small><strong>${skin.minFloat===null?"Not available":skin.minFloat.toFixed(8)}</strong></div>
+   <div class="detail"><small>MAX FLOAT</small><strong>${skin.maxFloat===null?"Not available":skin.maxFloat.toFixed(8)}</strong></div>
+   <div class="detail"><small>STATTRAK™</small><strong>${skin.stattrak?"Flagged by source":"Not indicated"}</strong></div>
+   <div class="detail"><small>SOUVENIR</small><strong>${skin.souvenir?"Flagged by source":"Not indicated"}</strong></div>
+   <div class="detail"><small>COLLECTION</small><strong>${escapeHTML(collection)}</strong></div>
+   <div class="detail"><small>PATTERN / PHASE</small><strong>${escapeHTML(pattern)} ${escapeHTML(skin.phase)}</strong></div>
+  </div>
+  <div class="detail"><small>MARKET HASH NAME / SOURCE NAME</small>
+   <strong>${escapeHTML(skin.marketName)}</strong>
+  </div>
+  ${skin.description?`<p>${escapeHTML(skin.description)}</p>`:""}
+  <div class="modal-actions">
+   <button class="primary-btn" data-action="add" data-id="${escapeHTML(skin.id)}">ADD TO INVENTORY</button>
+   <button class="secondary-btn" data-action="favorite" data-id="${escapeHTML(skin.id)}">
+    ${favorites.includes(skin.id)?"REMOVE FAVORITE":"ADD TO FAVORITES"}
+   </button>
+  </div>
+ `);
+}
+
+/* =========================================================
+   CASE SIMULATOR
+========================================================= */
+
+const CASE_CONFIG={
+ starter:{
+  name:"Starter case",
+  weights:{
+   "Consumer Grade":35,"Industrial Grade":30,"Mil-Spec Grade":22,
+   "Restricted":9,"Classified":3.5,"Covert":0.5
+  }
+ },
+ elite:{
+  name:"Elite case",
+  weights:{
+   "Industrial Grade":10,"Mil-Spec Grade":35,"Restricted":30,
+   "Classified":18,"Covert":7
+  }
+ },
+ legendary:{
+  name:"Legendary case",
+  weights:{
+   "Mil-Spec Grade":10,"Restricted":25,"Classified":35,
+   "Covert":30
+  }
+ }
 };
 
-const wearNames = [
-  "Factory New","Minimal Wear","Field-Tested",
-  "Well-Worn","Battle-Scarred"
-];
+function weightedRarityPick(pool,weights){
+ const groups=Object.entries(weights)
+  .map(([rarity,weight])=>({
+   rarity,weight,
+   items:pool.filter(skin=>skin.rarity===rarity)
+  }))
+  .filter(group=>group.items.length>0);
 
-const pistolNames = [
-  "Glock-18","USP-S","P2000","Desert Eagle","Dual Berettas",
-  "Five-SeveN","P250","Tec-9","CZ75-Auto","R8 Revolver"
-];
+ if(!groups.length)return pool[Math.floor(Math.random()*pool.length)];
 
-const smgNames = [
-  "MAC-10","MP9","MP7","MP5-SD","UMP-45","P90","PP-Bizon"
-];
+ const total=groups.reduce((sum,group)=>sum+group.weight,0);
+ let roll=Math.random()*total;
 
-const heavyNames = [
-  "Nova","XM1014","MAG-7","Sawed-Off","M249","Negev"
-];
+ for(const group of groups){
+  roll-=group.weight;
+  if(roll<=0)return group.items[Math.floor(Math.random()*group.items.length)];
+ }
 
-function escapeHTML(value) {
-  return String(value ?? "").replace(/[&<>"']/g, char => ({
-    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-  })[char]);
+ const last=groups[groups.length-1];
+ return last.items[Math.floor(Math.random()*last.items.length)];
 }
 
-function safeImage(url) {
-  if (typeof url !== "string") return "";
-  try {
-    const parsed = new URL(url);
-    return ["https:","http:"].includes(parsed.protocol) ? parsed.href : "";
-  } catch {
-    return "";
-  }
+function chooseCaseSkin(caseId){
+ if(caseId==="special"){
+  const pool=skins.filter(skin=>skin.category==="Knives"||skin.category==="Gloves");
+  if(!pool.length)return null;
+  return pool[Math.floor(Math.random()*pool.length)];
+ }
+
+ const config=CASE_CONFIG[caseId];
+ if(!config)return null;
+
+ return weightedRarityPick(skins,config.weights);
 }
 
-function normalizeText(value) {
-  return String(value || "").trim().toLowerCase();
+function openCase(caseId){
+ if(openingCase)return;
+ if(!catalogLoaded||!skins.length){
+  showToast("Skin-katalogi ei ole vielä valmis.");
+  return;
+ }
+
+ const special=caseId==="special";
+ const selected=chooseCaseSkin(caseId);
+ if(!selected){
+  showToast(special?"Katalogista ei löytynyt veitsiä tai hanskoja.":"Caseä ei voitu avata.");
+  return;
+ }
+
+ openingCase=true;
+ const config=CASE_CONFIG[caseId];
+ const caseName=special?"Knife case":config.name;
+
+ openModal(`
+  <div class="reveal-result">
+   <div class="eyebrow">CASE OPENING</div>
+   <h2>Opening ${escapeHTML(caseName)}...</h2>
+   <div style="font-size:55px;margin:25px">📦</div>
+   <p>Searching the catalog for your next skin...</p>
+   <div class="loading">✦ ✦ ✦</div>
+  </div>
+ `);
+
+ setTimeout(()=>{
+  const generatedFloat=randomFloatForSkin(selected);
+  const instance=addInstance(selected,{
+   float:generatedFloat,
+   floatType:generatedFloat===null?"not-available":"simulated",
+   source:"case:"+caseId,
+   simulated:generatedFloat!==null
+  });
+
+  const wear=generatedFloat===null?
+   (selected.wear||"Not specified"):getWearFromFloat(generatedFloat);
+
+  document.getElementById("modalBody").innerHTML=`
+   <div class="reveal-result">
+    <div class="eyebrow">CASE OPENED SUCCESSFULLY</div>
+    <h2>YOU GOT A DROP!</h2>
+    <div class="rarity-line" style="--rarity:${rarityColor(selected)};margin-top:15px"></div>
+    ${skinImage(selected)}
+    <h2>${escapeHTML(selected.name)}</h2>
+    <p>${escapeHTML(selected.rarity)} · ${escapeHTML(wear)}</p>
+    ${generatedFloat===null?
+     `<p>Float-tietoa ei ollut saatavilla.</p>`:
+     `<div class="modal-price">Float: ${generatedFloat.toFixed(8)}</div>
+      <p>Simuloitu arvo skinin ilmoitetun float-alueen sisällä.</p>`
+    }
+    <p>Skin lisättiin inventaarioosi.</p>
+    <button class="primary-btn" id="revealDone">AWESOME!</button>
+   </div>
+  `;
+
+  document.getElementById("revealDone").addEventListener("click",closeModal);
+  openingCase=false;
+ },1100);
 }
 
-function extractWear(name) {
-  const text = String(name || "");
-  return wearNames.find(wear =>
-    text.toLowerCase().endsWith(" (" + wear.toLowerCase() + ")")
-  ) || "";
-}
+/* =========================================================
+   INVENTORY EXPORT
+========================================================= */
 
-function stripWear(name) {
-  return String(name || "").replace(
-    /\s+\((Factory New|Minimal Wear|Field-Tested|Well-Worn|Battle-Scarred)\)$/i,
-    ""
-  );
-}
-
-function classifySkin(item) {
-  const weapon = item.weapon?.name || "";
-  const category = item.category?.name || "";
-  const combined = (weapon + " " + category + " " + (item.name || "")).toLowerCase();
-
-  if (/glove|hand wraps/.test(combined)) return "Gloves";
-  if (/knife|bayonet|karambit|kukri|daggers|talon|ursus|stiletto|navaja|nomad|paracord|skeleton|survival|bowie|falchion|flip knife|gut knife|huntsman/.test(combined)) return "Knives";
-
-  if (pistolNames.some(n => weapon.toLowerCase() === n.toLowerCase())) return "Pistols";
-  if (smgNames.some(n => weapon.toLowerCase() === n.toLowerCase())) return "SMGs";
-  if (heavyNames.some(n => weapon.toLowerCase() === n.toLowerCase())) return "Heavy";
-
-  if (/pistol/.test(category.toLowerCase())) return "Pistols";
-  if (/smg/.test(category.toLowerCase())) return "SMGs";
-  if (/heavy|shotgun|machine gun/.test(category.toLowerCase())) return "Heavy";
-  if (/knife/.test(category.toLowerCase())) return "Knives";
-
-  return "Rifles";
-}
-
-function normalizeSkin(item, index) {
-  const marketName = item.market_hash_name || item.name || item.id || ("Unknown skin " + index);
-  const baseName = stripWear(marketName);
-  const wear = item.wear?.name || extractWear(marketName) || "";
-  const weaponName = item.weapon?.name || item.category?.name || "Unknown weapon";
-  const rarityName = item.rarity?.name || "Unknown rarity";
-
-  const id = String(item.id || marketName)
-    .replace(/[^a-zA-Z0-9_-]/g, "_");
-
-  const minFloat = Number.isFinite(Number(item.min_float))
-    ? Number(item.min_float) : null;
-  const maxFloat = Number.isFinite(Number(item.max_float))
-    ? Number(item.max_float) : null;
-
-  const image = safeImage(item.image || item.image_url || "");
-
-  const stattrak = Boolean(
-    item.stattrak === true ||
-    item.statTrak === true ||
-    /^StatTrak™/i.test(marketName)
-  );
-
-  const souvenir = Boolean(
-    item.souvenir === true ||
-    /^Souvenir/i.test(marketName)
-  );
+function exportInventory(){
+ const rows=inventory.map(entry=>{
+  const skin=getSkin(entry.skinId);
+  if(!skin)return null;
 
   return {
-    id,
-    name: baseName,
-    marketName,
-    weaponName,
-    category: classifySkin(item),
-    rarity: rarityName,
-    rarityColor: item.rarity?.color || "",
-    wear,
-    minFloat,
-    maxFloat,
-    image,
-    stattrak,
-    souvenir,
-    description: item.description || "",
-    raw: item
+   name:skin.name,
+   market_name:skin.marketName,
+   weapon:skin.weaponName,
+   category:skin.category,
+   rarity:skin.rarity,
+   wear:entry.float!==null?getWearFromFloat(entry.float):skin.wear,
+   float:entry.float,
+   float_is_simulated:entry.simulated,
+   source:entry.source,
+   acquired_at:new Date(entry.acquiredAt).toISOString()
   };
+ }).filter(Boolean);
+
+ const blob=new Blob([JSON.stringify(rows,null,2)],{type:"application/json"});
+ const url=URL.createObjectURL(blob);
+ const link=document.createElement("a");
+ link.href=url;
+ link.download="skinverse-inventory.json";
+ link.click();
+ URL.revokeObjectURL(url);
+ showToast("Inventory exported.");
 }
 
-function loadSavedData() {
-  try {
-    const oldInventory = JSON.parse(localStorage.getItem(STORAGE.inventory) || "{}");
-    if (oldInventory && typeof oldInventory === "object" && !Array.isArray(oldInventory)) {
-      inventory = oldInventory;
-    }
-  } catch {
-    inventory = {};
-  }
+/* =========================================================
+   NAVIGATION AND EVENT HANDLERS
+========================================================= */
 
-  try {
-    const oldFavorites = JSON.parse(localStorage.getItem(STORAGE.favorites) || "[]");
-    favorites = new Set(Array.isArray(oldFavorites) ? oldFavorites.map(String) : []);
-  } catch {
-    favorites = new Set();
-  }
+function changePage(page){
+ if(!["market","cases","inventory","favorites"].includes(page))return;
+ activePage=page;
+
+ document.querySelectorAll(".page").forEach(section=>{
+  section.classList.toggle("active",section.id===page);
+ });
+
+ document.querySelectorAll(".nav-btn").forEach(button=>{
+  button.classList.toggle("active",button.dataset.page===page);
+ });
+
+ window.scrollTo({top:0,behavior:"smooth"});
+
+ if(page==="inventory")renderInventory();
+ if(page==="favorites")renderFavorites();
 }
 
-function saveInventory() {
-  localStorage.setItem(STORAGE.inventory, JSON.stringify(inventory));
-  updateStats();
-}
+document.addEventListener("click",event=>{
+ const pageButton=event.target.closest("[data-page]");
+ if(pageButton){changePage(pageButton.dataset.page);return}
 
-function saveFavorites() {
-  localStorage.setItem(STORAGE.favorites, JSON.stringify([...favorites]));
-  updateStats();
-}
-
-function getSkin(id) {
-  return skinById.get(String(id)) || null;
-}
-
-function money(value) {
-  return Number.isFinite(value) ? "€" + value.toFixed(2) : "Hinta myöhemmin";
-}
-
-function floatText(skin) {
-  if (skin.minFloat === null || skin.maxFloat === null) return "Float-tieto ei saatavilla";
-  return skin.minFloat.toFixed(4) + " – " + skin.maxFloat.toFixed(4);
-}
-
-function rarityColor(skin) {
-  const color = String(skin.rarityColor || "").replace("#", "");
-  return /^[0-9a-f]{6}$/i.test(color) ? "#" + color : "#8492a6";
-}
-
-function skinCard(skin, options = {}) {
-  const isFavorite = favorites.has(skin.id);
-  const count = inventory[skin.id] || 0;
-  const image = skin.image
-    ? `<img src="${escapeHTML(skin.image)}" alt="${escapeHTML(skin.name)}" loading="lazy" onerror="this.style.display='none'">`
-    : `<span class="placeholder">◇</span>`;
-
-  return `
-    <article class="skin-card">
-      <div class="skin-image" onclick="showDetails('${escapeHTML(skin.id)}')">
-        ${image}
-      </div>
-      <div class="skin-info">
-        <div class="skin-name">${escapeHTML(skin.name)}</div>
-        <div class="skin-weapon">${escapeHTML(skin.weaponName)}</div>
-        <div class="skin-meta">
-          <span class="tag">
-            <span class="rarity-dot" style="background:${rarityColor(skin)}"></span>
-            ${escapeHTML(skin.rarity)}
-          </span>
-          ${skin.wear ? `<span class="tag">${escapeHTML(skin.wear)}</span>` : ""}
-          ${skin.stattrak ? `<span class="tag">StatTrak™</span>` : ""}
-          ${skin.souvenir ? `<span class="tag">Souvenir</span>` : ""}
-        </div>
-        <div class="skin-bottom">
-          <span class="price">Hinta myöhemmin</span>
-          <div style="display:flex;gap:5px">
-            ${options.inventory ? `<span class="tag">×${count}</span>` : ""}
-            <button class="icon-btn ${isFavorite ? "fav" : ""}"
-              title="Toggle favorite"
-              onclick="toggleFavorite('${escapeHTML(skin.id)}')">
-              ${isFavorite ? "♥" : "♡"}
-            </button>
-            <button class="icon-btn" title="Details"
-              onclick="showDetails('${escapeHTML(skin.id)}')">↗</button>
-          </div>
-        </div>
-      </div>
-    </article>
-  `;
-}
-
-function updateStats() {
-  document.getElementById("skinCount").textContent =
-    skins.length ? skins.length.toLocaleString("fi-FI") : "—";
-
-  document.getElementById("favoriteCount").textContent = favorites.size;
-
-  const total = Object.values(inventory)
-    .reduce((sum, value) => sum + (Number(value) || 0), 0);
-
-  document.getElementById("inventoryCount").textContent = total;
-}
-
-function renderMarket() {
-  const search = normalizeText(document.getElementById("searchInput").value);
-  const wearFilter = document.getElementById("wearSelect").value;
-  const variantFilter = document.getElementById("variantSelect").value;
-  const sort = document.getElementById("sortSelect").value;
-
-  let result = skins.filter(skin => {
-    const matchesCategory =
-      activeCategory === "all" || skin.category === activeCategory;
-
-    const haystack = normalizeText(
-      skin.name + " " + skin.marketName + " " +
-      skin.weaponName + " " + skin.rarity
-    );
-
-    const matchesSearch = !search || haystack.includes(search);
-    const matchesWear = wearFilter === "all" || skin.wear === wearFilter;
-
-    let matchesVariant = true;
-    if (variantFilter === "stattrak") matchesVariant = skin.stattrak;
-    if (variantFilter === "souvenir") matchesVariant = skin.souvenir;
-
-    return matchesCategory && matchesSearch && matchesWear && matchesVariant;
+ const filterButton=event.target.closest("[data-filter]");
+ if(filterButton){
+  activeFilter=filterButton.dataset.filter;
+  currentPageNumber=1;
+  document.querySelectorAll("[data-filter]").forEach(button=>{
+   button.classList.toggle("active",button===filterButton);
   });
-
-  if (sort === "name") {
-    result.sort((a,b) => a.name.localeCompare(b.name));
-  } else if (sort === "rarity") {
-    result.sort((a,b) =>
-      (rarityOrder[b.rarity] || 0) - (rarityOrder[a.rarity] || 0)
-    );
-  }
-
-  document.getElementById("resultCount").textContent =
-    result.length.toLocaleString("fi-FI") + " skins";
-
-  document.getElementById("marketGrid").innerHTML = result.length
-    ? result.map(skin => skinCard(skin)).join("")
-    : `<div class="empty" style="grid-column:1/-1">No skins found. Try another search or filter.</div>`;
-}
-
-function renderInventory() {
-  const entries = Object.entries(inventory)
-    .filter(([id,count]) => Number(count) > 0 && getSkin(id));
-
-  const grid = document.getElementById("inventoryGrid");
-
-  if (!entries.length) {
-    grid.innerHTML = `<div class="empty" style="grid-column:1/-1">
-      Your inventory is empty.<br>Voit lisätä skinejä avaamalla simulaattorin laatikoita.
-    </div>`;
-    return;
-  }
-
-  grid.innerHTML = entries.map(([id]) =>
-    skinCard(getSkin(id), {inventory:true})
-  ).join("");
-}
-
-function renderFavorites() {
-  const entries = [...favorites]
-    .map(id => getSkin(id))
-    .filter(Boolean);
-
-  document.getElementById("favoritesGrid").innerHTML = entries.length
-    ? entries.map(skin => skinCard(skin)).join("")
-    : `<div class="empty" style="grid-column:1/-1">
-      No favorites yet.<br>Lisää suosikkeja painamalla sydänkuvaketta.
-    </div>`;
-}
-
-function toggleFavorite(id) {
-  if (favorites.has(id)) favorites.delete(id);
-  else favorites.add(id);
-
-  saveFavorites();
   renderMarket();
-  renderFavorites();
-  renderInventory();
-}
+  return;
+ }
 
-function showDetails(id) {
-  const skin = getSkin(id);
-  if (!skin) return;
+ const pageNumberButton=event.target.closest("[data-page-number]");
+ if(pageNumberButton&&!pageNumberButton.disabled){
+  currentPageNumber=Number(pageNumberButton.dataset.pageNumber)||1;
+  renderMarket();
+  document.getElementById("marketGrid").scrollIntoView({behavior:"smooth",block:"start"});
+  return;
+ }
 
-  document.getElementById("modalTitle").textContent = skin.name;
+ const caseButton=event.target.closest("[data-case]");
+ if(caseButton){openCase(caseButton.dataset.case);return}
 
-  const image = skin.image
-    ? `<img src="${escapeHTML(skin.image)}" alt="${escapeHTML(skin.name)}" onerror="this.style.display='none'">`
-    : `<span style="font-size:55px;opacity:.3">◇</span>`;
+ const actionButton=event.target.closest("[data-action]");
+ if(actionButton){
+  const id=actionButton.dataset.id;
+  const action=actionButton.dataset.action;
 
-  document.getElementById("modalContent").innerHTML = `
-    <div class="modal-image">${image}</div>
-    <div class="detail-grid">
-      <div class="detail"><small>Weapon</small><strong>${escapeHTML(skin.weaponName)}</strong></div>
-      <div class="detail"><small>Category</small><strong>${escapeHTML(skin.category)}</strong></div>
-      <div class="detail"><small>Rarity</small><strong>${escapeHTML(skin.rarity)}</strong></div>
-      <div class="detail"><small>Condition</small><strong>${escapeHTML(skin.wear || "Not specified")}</strong></div>
-      <div class="detail"><small>Float range</small><strong>${escapeHTML(floatText(skin))}</strong></div>
-      <div class="detail"><small>Price</small><strong>Hinta myöhemmin</strong></div>
-      <div class="detail"><small>StatTrak™</small><strong>${skin.stattrak ? "Available / flagged" : "Not indicated"}</strong></div>
-      <div class="detail"><small>Souvenir</small><strong>${skin.souvenir ? "Available / flagged" : "Not indicated"}</strong></div>
-    </div>
-    <div class="detail" style="margin-top:9px">
-      <small>Market hash name</small>
-      <strong>${escapeHTML(skin.marketName)}</strong>
-    </div>
-    ${skin.description ? `<p class="muted" style="font-size:12px;line-height:1.6">${escapeHTML(skin.description)}</p>` : ""}
-    <div class="modal-actions">
-      <button class="primary" onclick="addToInventory('${escapeHTML(skin.id)}')">Add to inventory</button>
-      <button class="secondary" onclick="toggleFavorite('${escapeHTML(skin.id)}')">
-        ${favorites.has(skin.id) ? "Remove favorite" : "Add to favorites"}
-      </button>
-    </div>
-  `;
-
-  document.getElementById("skinModal").classList.add("open");
-}
-
-function closeModal() {
-  document.getElementById("skinModal").classList.remove("open");
-}
-
-function addToInventory(id) {
-  if (!getSkin(id)) return;
-  inventory[id] = (Number(inventory[id]) || 0) + 1;
-  saveInventory();
-  renderInventory();
-}
-
-function weightedRarityPool(pool, premium) {
-  const weights = premium
-    ? {
-        "Mil-Spec Grade":35,
-        "Restricted":30,
-        "Classified":22,
-        "Covert":11,
-        "Contraband":2
-      }
-    : {
-        "Consumer Grade":30,
-        "Industrial Grade":25,
-        "Mil-Spec Grade":25,
-        "Restricted":13,
-        "Classified":5,
-        "Covert":2
-      };
-
-  const groups = Object.entries(weights)
-    .map(([rarity,weight]) => ({
-      rarity,
-      weight,
-      items:pool.filter(s => s.rarity === rarity)
-    }))
-    .filter(group => group.items.length);
-
-  if (!groups.length) return pool;
-
-  const total = groups.reduce((sum,group) => sum + group.weight,0);
-  let roll = Math.random() * total;
-
-  for (const group of groups) {
-    roll -= group.weight;
-    if (roll <= 0) return group.items;
-  }
-
-  return groups[groups.length-1].items;
-}
-
-function openCase(type) {
-  if (!skins.length) {
-    alert("Skin-katalogia ei ole vielä ladattu.");
-    return;
-  }
-
-  let pool = skins;
-
-  if (type === "special") {
-    const special = skins.filter(s =>
-      s.category === "Knives" || s.category === "Gloves"
-    );
-    if (special.length) pool = special;
-  }
-
-  const rarityPool = type === "special"
-    ? pool
-    : weightedRarityPool(pool, type === "premium");
-
-  const selected = rarityPool[Math.floor(Math.random() * rarityPool.length)];
-
-  inventory[selected.id] = (Number(inventory[selected.id]) || 0) + 1;
-  saveInventory();
-  renderInventory();
-
-  const output = document.getElementById("caseOutput");
-  output.classList.remove("hidden");
-
-  const image = selected.image
-    ? `<img src="${escapeHTML(selected.image)}" alt="${escapeHTML(selected.name)}" onerror="this.style.display='none'">`
-    : `<div style="font-size:70px;opacity:.3">◇</div>`;
-
-  output.innerHTML = `
-    <div class="case-card case-result">
-      <div class="eyebrow">Case opened</div>
-      ${image}
-      <h2>${escapeHTML(selected.name)}</h2>
-      <p class="muted">${escapeHTML(selected.weaponName)} · ${escapeHTML(selected.rarity)}</p>
-      <p class="price">Hinta myöhemmin</p>
-      <p class="muted">Esine lisättiin inventaarioosi.</p>
-      <button class="secondary" onclick="showDetails('${escapeHTML(selected.id)}')">View details</button>
-    </div>
-  `;
-
-  output.scrollIntoView({behavior:"smooth",block:"center"});
-}
-
-function switchPage(page) {
-  currentPage = page;
-
-  document.querySelectorAll(".nav button").forEach(button => {
-    button.classList.toggle("active", button.dataset.page === page);
-  });
-
-  document.querySelectorAll(".page").forEach(section => {
-    section.classList.toggle("active", section.id === "page-" + page);
-  });
-
-  const titles = {
-    market:["Skin Market","Tutki CS2-skinien katalogia, vertaile ulkoasuja ja kerää suosikkisi."],
-    cases:["Case Simulator","Avaa virtuaalisia laatikoita ja kokeile onneasi."],
-    inventory:["Your Inventory","Kaikki keräämäsi skin-esineet yhdessä paikassa."],
-    favorites:["Your Favorites","Tallenna kiinnostavimmat skinit suosikkeihisi."]
-  };
-
-  document.getElementById("pageTitle").textContent = titles[page][0];
-  document.getElementById("pageSubtitle").textContent = titles[page][1];
-
-  if (page === "inventory") renderInventory();
-  if (page === "favorites") renderFavorites();
-}
-
-async function loadSkins() {
-  const status = document.getElementById("connectionStatus");
-  const grid = document.getElementById("marketGrid");
-
-  try {
-    status.innerHTML = "● <strong>Ladataan...</strong>";
-
-    const response = await fetch(API_URL, {cache:"no-cache"});
-    if (!response.ok) {
-      throw new Error("API returned HTTP " + response.status);
-    }
-
-    const data = await response.json();
-    if (!Array.isArray(data)) {
-      throw new Error("API returned an unexpected data format.");
-    }
-
-    skins = data.map(normalizeSkin)
-      .filter(skin => skin.name && skin.id);
-
-    skinById = new Map(skins.map(skin => [skin.id,skin]));
-
-    // Säilytetään vanhat tallenteet, vaikka niiden tunnisteet eivät löytyisi.
-    // Niitä ei lasketa mukaan näkyvään inventaarioon ennen tunnisteen täsmäystä.
-    updateStats();
-    renderMarket();
-    renderInventory();
-    renderFavorites();
-
-    status.innerHTML = `● <strong>Catalog connected</strong>`;
-    document.getElementById("skinCount").textContent =
-      skins.length.toLocaleString("fi-FI");
-
-  } catch (error) {
-    console.error("Skin catalog loading failed:",error);
-
-    status.innerHTML = `● <strong style="color:var(--red)">Connection error</strong>`;
-
-    grid.innerHTML = `
-      <div class="error" style="grid-column:1/-1">
-        <strong>Skin-katalogin lataaminen epäonnistui.</strong><br>
-        Tarkista internetyhteys ja yritä uudelleen.<br>
-        <span style="font-size:11px">${escapeHTML(error.message)}</span><br><br>
-        <button class="primary" onclick="loadSkins()">Try again</button>
-      </div>
-    `;
-  }
-}
-
-document.querySelectorAll(".nav button").forEach(button => {
-  button.addEventListener("click", () => switchPage(button.dataset.page));
+  if(action==="add")addToInventory(id);
+  if(action==="favorite")toggleFavorite(id);
+  if(action==="details")showDetails(id);
+  if(action==="remove-instance")removeInstance(actionButton.dataset.instance);
+ }
 });
 
-document.querySelectorAll("#categoryFilters button").forEach(button => {
-  button.addEventListener("click", () => {
-    activeCategory = button.dataset.category;
-
-    document.querySelectorAll("#categoryFilters button").forEach(item =>
-      item.classList.toggle("active", item === button)
-    );
-
-    renderMarket();
-  });
+document.getElementById("searchInput").addEventListener("input",()=>{
+ currentPageNumber=1;renderMarket();
 });
 
-document.getElementById("searchInput").addEventListener("input",renderMarket);
-document.getElementById("sortSelect").addEventListener("change",renderMarket);
-document.getElementById("wearSelect").addEventListener("change",renderMarket);
-document.getElementById("variantSelect").addEventListener("change",renderMarket);
+[
+ "sortSelect","wearFilter","rarityFilter","variantFilter",
+ "onlyImages","onlyFloat"
+].forEach(id=>{
+ document.getElementById(id).addEventListener("change",()=>{
+  currentPageNumber=1;renderMarket();
+ });
+});
 
-loadSavedData();
+document.getElementById("inventorySort").addEventListener("change",renderInventory);
+document.getElementById("exportInventory").addEventListener("click",exportInventory);
+document.getElementById("modalClose").addEventListener("click",closeModal);
+
+document.getElementById("modalBackdrop").addEventListener("click",event=>{
+ if(event.target.id==="modalBackdrop")closeModal();
+});
+
+document.addEventListener("keydown",event=>{
+ if(event.key==="Escape")closeModal();
+});
+
+/* =========================================================
+   CATALOG LOADING
+========================================================= */
+
+async function loadSkins(){
+ const grid=document.getElementById("marketGrid");
+ const status=document.getElementById("catalogStatus");
+ const dot=status.querySelector(".status-dot");
+
+ status.lastChild.textContent="Connecting to skin catalog...";
+ grid.innerHTML='<div class="loading">Loading CS2 skin catalog...<br>Preparing the armory.</div>';
+
+ try{
+  const response=await fetch(API_URL,{cache:"no-cache"});
+  if(!response.ok)throw new Error("Catalog request failed: HTTP "+response.status);
+
+  const data=await response.json();
+  const normalizedSkins=buildCatalog(data);
+
+  if(!normalizedSkins.length)throw new Error("Catalog did not contain usable skin entries.");
+
+  skins=normalizedSkins;
+  skinById=new Map(skins.map(skin=>[skin.id,skin]));
+  catalogLoaded=true;
+  lastCatalogError=null;
+
+  migrateLegacyReferences();
+  fillRarityFilter();
+
+  document.getElementById("skinCount").textContent=
+   skins.length.toLocaleString("fi-FI");
+
+  dot.classList.add("online");
+  status.lastChild.textContent=
+   "Connected · "+skins.length.toLocaleString("fi-FI")+" catalog entries";
+
+  renderAll();
+  console.info("SKINVERSE catalog loaded:",skins.length);
+
+ }catch(error){
+  console.error("SKINVERSE catalog error:",error);
+  lastCatalogError=error;
+  catalogLoaded=false;
+
+  dot.classList.add("offline");
+  status.lastChild.textContent="Catalog connection failed";
+
+  grid.innerHTML=`
+   <div class="error-state">
+    <strong>Skin catalog could not be loaded.</strong><br>
+    Tarkista internetyhteys tai yritä hetken kuluttua uudelleen.
+    <br><br><small>${escapeHTML(error.message)}</small><br><br>
+    <button class="primary-btn" id="retryCatalog">RETRY</button>
+   </div>`;
+
+  document.getElementById("retryCatalog")?.addEventListener("click",loadSkins);
+ }
+}
+
+/* =========================================================
+   STARTUP
+========================================================= */
+
+loadLegacyData();
+renderStats();
+renderAll();
 loadSkins();
+
 </script>
 </body>
 </html>
