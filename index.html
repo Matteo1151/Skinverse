@@ -939,7 +939,87 @@ function showToast(message) {
     showToast.timer = setTimeout(() => toast.classList.remove("show"), 2300);
 }
 
+
 async function loadSkins() {
+    const grid = document.getElementById("marketGrid");
+
+    grid.innerHTML = `
+        <div class="loading">
+            Loading complete CS2 skin catalog...
+        </div>
+    `;
+
+    try {
+        const response = await fetch(API_URL);
+
+        if (!response.ok) {
+            throw new Error(`API error: ${response.status}`);
+        }
+
+        const catalog = await response.json();
+
+        if (!Array.isArray(catalog) || catalog.length === 0) {
+            throw new Error("Empty skin catalog");
+        }
+
+        skins = catalog.map(item => {
+            const category = item.category?.name || "Other";
+            const weaponName = item.weapon?.name || category;
+
+            let icon = "🔫";
+
+            if (category.toLowerCase().includes("knife")) {
+                icon = "🔪";
+            } else if (category.toLowerCase().includes("glove")) {
+                icon = "🧤";
+            }
+
+            return {
+                id: item.id,
+                marketHashName: item.market_hash_name || item.name,
+                name: item.market_hash_name || item.name,
+                weapon: category,
+                weaponName,
+                condition: item.wear?.name || "No wear",
+                price: null,
+                rarity: item.rarity?.name || "Unknown",
+                color: item.rarity?.color || "#8b9bb2",
+                icon,
+                image: item.image || "",
+                minFloat: item.min_float ?? null,
+                maxFloat: item.max_float ?? null,
+                stattrak: Boolean(item.stattrak),
+                souvenir: Boolean(item.souvenir),
+                phase: item.phase || "",
+                description: item.description || ""
+            };
+        });
+
+        document.getElementById("skinCount").textContent =
+            skins.length.toLocaleString("fi-FI");
+
+        renderAll();
+
+        console.log("SKINVERSE CATALOG LOADED:", skins.length);
+
+        showToast(
+            `Loaded ${skins.length.toLocaleString("fi-FI")} skin variants!`
+        );
+
+    } catch (error) {
+        console.error("Catalog loading failed:", error);
+
+        grid.innerHTML = `
+            <div class="empty-state">
+                <strong>Catalog loading failed</strong>
+                Tarkista internet-yhteys ja yritä uudelleen.
+            </div>
+        `;
+
+        showToast("Skin catalog could not be loaded.");
+    }
+}
+
     try {
         const response = await fetch(API_URL);
 
