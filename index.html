@@ -1050,9 +1050,23 @@ async function loadSkins() {
     renderAll();
 }
 
+
 function getSkin(id) {
-    return skins.find(skin => skin.id === id);
+    const directMatch = skins.find(skin => skin.id === id);
+
+    if (directMatch) return directMatch;
+
+    const oldSkin = demoSkins.find(skin => skin.id === id);
+
+    if (oldSkin) {
+        return skins.find(skin =>
+            skin.marketHashName === oldSkin.marketHashName
+        );
+    }
+
+    return undefined;
 }
+
 
 function skinImage(skin) {
     const image = skin.image && skin.image.startsWith("https://")
