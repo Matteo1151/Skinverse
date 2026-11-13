@@ -1127,8 +1127,11 @@ function renderMarket() {
 
     let filtered = skins.filter(skin => {
         const matchesText =
-            skin.name.toLowerCase().includes(search) ||
-            skin.weapon.toLowerCase().includes(search);
+    skin.name.toLowerCase().includes(search) ||
+    skin.weapon.toLowerCase().includes(search) ||
+    skin.weaponName.toLowerCase().includes(search) ||
+    skin.rarity.toLowerCase().includes(search) ||
+    skin.condition.toLowerCase().includes(search);
 
         const matchesFilter =
             activeFilter === "All" || skin.weapon === activeFilter;
